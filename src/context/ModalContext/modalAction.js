@@ -1,0 +1,8 @@
+export const ACTIONS = {
+    CHANGE_TITLE: "CHANGE_TITLE",
+    CHANGE_BODY: "CHANGE_BODY",
+    SHOW: "SHOW",
+    HIDE: "HIDE",
+    SUCCESS: "SUCCESS",
+    DANGER: "DANGER"
+}

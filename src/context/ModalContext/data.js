@@ -1,8 +1,6 @@
-import { createContext } from "react"
-
-const modalState = {
+export const modalState = {
+    show: false,
     title: "modal title",
-    body: "modal body"
+    body: "modal body",
+    background: "#00aaff"
 }
-
-const ModalContext = createContext();

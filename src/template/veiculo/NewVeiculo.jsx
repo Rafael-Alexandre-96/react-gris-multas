@@ -1,73 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
 import api from "../../service/api";
-import { CustomModal } from "../common/CustomModal";
 import { BtnSalvarSm } from "../common/CustomButtons";
 import { BdgNovo } from "../common/CustomBadges";
+import { ACTIONS } from "../../context/ModalContext/modalAction";
 
 export const NewVeiculo = ({updateFunction}) => {
+    const modalContext = useContext(ModalContext);
     const [veiculo, setVeiculo] = useState();
-    const [showModal, setShowModal] = useState(false);
-    const [titleModal, setTitleModal] = useState('');
-    const [bodyModal, setBodyModal] = useState('');
-    const [backModal, setBackModal] = useState("#198754");
 
     const handleSalvar = async () => {
         await api.post("/veiculo", {...veiculo})
             .then(() => {
                 setVeiculo(null);
                 updateFunction();
-                setTitleModal("Salvo");
-                setBackModal("#198754");
-                setBodyModal("Veículo Salvo com Sucesso!");
+                showModalSuccess();
             })
-            .catch((error) => {
-                setTitleModal("Erro");
-                setBackModal("#dc3545");
-                setBodyModal(error.message)
-            });
-        
-        setShowModalTrue();
+            .catch(
+                (error) => {
+                    var message = error.response.data.message;
+                    error.response.data.fieldErros?.forEach((fieldError) => 
+                        message += `\n ${fieldError.field}: ${fieldError.errorMsg}`
+                    );
+                    showModalDanger(message);
+                }
+            );
     };
 
-    const setShowModalTrue = () => {
-        setShowModal(true);
+    const showModalSuccess = () => {
+        modalContext.dispatch({ type: ACTIONS.CHANGE_TITLE, payload: "Registro salvo"});
+        modalContext.dispatch({ type: ACTIONS.CHANGE_BODY, payload: "Registro salvo com sucesso"});
+        modalContext.dispatch({ type: ACTIONS.SUCCESS });
+        modalContext.dispatch({ type: ACTIONS.SHOW });
     }
 
-    const setShowModalFalse = () => {
-        setShowModal(false);
+    const showModalDanger = (body) => {
+        modalContext.dispatch({ type: ACTIONS.CHANGE_TITLE, payload: "Erro"});
+        modalContext.dispatch({ type: ACTIONS.CHANGE_BODY, payload: body});
+        modalContext.dispatch({ type: ACTIONS.DANGER });
+        modalContext.dispatch({ type: ACTIONS.SHOW });
     }
 
     return(
-        <>
-        { showModal && <CustomModal title={titleModal} body={bodyModal} setShowModalFalse={setShowModalFalse} background={backModal}/> }
-            <tr>
-                <td className="align-middle">
-                    <input
-                        type="text"
-                        className="form-control text-center"
-                        name="placa"
-                        placeholder="Placa"
-                        value={veiculo?.placa || ''}
-                        onChange={(e) => setVeiculo({...veiculo, placa: e.target.value})}
-                    />
-                </td>
-                <td className="align-middle">
-                    <input
-                        type="text"
-                        className="form-control text-center"
-                        name="frota"
-                        placeholder="Frota"
-                        value={veiculo?.frota || ''}
-                        onChange={(e) => setVeiculo({...veiculo, frota: e.target.value})}
-                    />
-                </td>
-                <td className="align-middle">
-                    <BdgNovo />
-                </td>
-                <td className="align-middle text-start">
-                    <BtnSalvarSm onClick={handleSalvar} />
-                </td>
-            </tr>
-        </>
+        <tr>
+            <td className="align-middle">
+                <input
+                    type="text"
+                    className="form-control text-center"
+                    name="placa"
+                    placeholder="Placa"
+                    value={veiculo?.placa || ''}
+                    onChange={(e) => setVeiculo({...veiculo, placa: e.target.value})}
+                />
+            </td>
+            <td className="align-middle">
+                <input
+                    type="text"
+                    className="form-control text-center"
+                    name="frota"
+                    placeholder="Frota"
+                    value={veiculo?.frota || ''}
+                    onChange={(e) => setVeiculo({...veiculo, frota: e.target.value})}
+                />
+            </td>
+            <td className="align-middle">
+                <BdgNovo />
+            </td>
+            <td className="align-middle text-start">
+                <BtnSalvarSm onClick={handleSalvar} />
+            </td>
+        </tr>
     );
 }
