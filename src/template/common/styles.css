@@ -1,0 +1,12 @@
+#logo-site {
+	max-width: 196px;
+}
+
+.btn-toggler {
+	border-radius: 10px;
+	border: 2px solid white;
+	background-color: transparent;
+	padding: 7px 12px;
+	color: white !important;
+	letter-spacing: 3px;
+}
