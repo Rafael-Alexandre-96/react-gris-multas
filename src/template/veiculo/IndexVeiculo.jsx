@@ -3,7 +3,7 @@ import { NavbarPrincipal } from "../common/NavbarPrincipal";
 import { TableVeiculo } from "./TableVeiculo";
 import { PrincipalCard } from "../common/PrincipalCard";
 import { ModalContextProvider } from "../../context/ModalContext/ModalContextProvider";
-import { VeiculoContextProvider } from "../../context/VeiculoContext/VeiculoContextProvider";
+import { FiltroContextProvider } from "../../context/FiltroContext/FiltroContextProvider";
 import { CustomModal } from "../common/CustomModal";
 
 export const IndexVeiculo = () => {
@@ -12,9 +12,9 @@ export const IndexVeiculo = () => {
             <NavbarPrincipal />
             <Container>
                 <PrincipalCard title="Cadastro de Veículo">
-                    <VeiculoContextProvider>
+                    <FiltroContextProvider>
                         <TableVeiculo />
-                    </VeiculoContextProvider>
+                    </FiltroContextProvider>
                 </PrincipalCard>
             </Container>
             <CustomModal />

@@ -1,4 +1,4 @@
-export const veiculoState = {
+export const filtroState = {
     filtro: {
         value: '',
         showDeactive: true
@@ -6,7 +6,7 @@ export const veiculoState = {
     pagination: {
         page: 0,
         inPage: 5,
-        totalPages: 0,
+        totalPages: 1,
         totalElements: 0
     }
 }

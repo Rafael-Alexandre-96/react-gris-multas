@@ -5,17 +5,19 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-    console.log(config);
+    //console.log(config);
     return config;
 }, function (error) {
-    return Promise.reject(error);
+    //return Promise.reject(error);
+    console.error(error);
 });
 
 api.interceptors.response.use(function (response) {
-    console.log(response);
+    //console.log(response);
     return response;
 }, function (error) {
-    return Promise.reject(error);
+    //return Promise.reject(error);
+    console.error(error);
 });
   
 export default api;

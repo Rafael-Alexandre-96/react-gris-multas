@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
 import api from "../../service/api";
 import { BtnSalvarSm, BtnEditarSm, BtnDesativarSm, BtnAtivarSm } from "../common/CustomButtons";
 import { BdgAtivo, BdgInativo } from "../common/CustomBadges";
 
 export const RecordVeiculo = ({entity}, key) => {
+    const modalContext = useContext(ModalContext);
+    const {
+        showModalSuccess, showModalDanger
+    } = modalContext;
+
     const [status, setStatus] = useState();
     const [veiculo, setVeiculo] = useState();
 
@@ -13,10 +19,21 @@ export const RecordVeiculo = ({entity}, key) => {
     }, [entity]);
 
     const handleSalvar = async () => {
-        await api.put(`/veiculo/${veiculo.id}`, {...veiculo}).then(() => {
-            api.get(`/veiculo/${veiculo.id}`).then((response) => {setVeiculo(response.data)});
-        });
-        setStatus(true);
+        await api.put(`/veiculo/${veiculo.id}`, {...veiculo})
+            .then(() => {
+                api.get(`/veiculo/${veiculo.id}`).then((response) => {setVeiculo(response.data)});
+                showModalSuccess("Registro salvo com sucesso.");
+                setStatus(true);
+            })
+            .catch(
+                (error) => {
+                    var message = error.response.data.message;
+                    error.response.data.fieldErros?.forEach((fieldError) => 
+                        message += `\n ${fieldError.field}: ${fieldError.errorMsg}`
+                    );
+                    showModalDanger(message);
+                }
+            );
     };
 
     const handleAtivar = async () => {

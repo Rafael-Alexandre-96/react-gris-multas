@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BtnBuscar, BtnLimpar } from "../common/CustomButtons";
 import { useContext } from "react";
-import { VeiculoContext } from "../../context/VeiculoContext/VeiculoContextProvider";
+import { FiltroContext } from "../../context/FiltroContext/FiltroContextProvider";
 
 export const FiltroVeiculo = () => {
-    const veiculoContext = useContext(VeiculoContext);
+    const filtroContext = useContext(FiltroContext);
     const {
         state: { filtro, pagination }, changeFiltroValue, changeFiltroShowDeactive, limparFiltro
-    } = veiculoContext;
+    } = filtroContext;
+
+    const [input, setInput] = useState('');
 
     return(
         <Row>
@@ -20,8 +23,8 @@ export const FiltroVeiculo = () => {
                         name="filtro"
                         id="filtro"
                         placeholder="Filtro"
-                        value={filtro?.value || ''}
-                        onChange={(e) => changeFiltroValue(e.target.value)}
+                        value={input || ''}
+                        onChange={(e) => setInput(e.target.value)}
                     />
                     <label className="input-group-text" htmlFor="comboDesativado">Mostrar Desativados?</label>
                     <select
@@ -33,8 +36,8 @@ export const FiltroVeiculo = () => {
                         <option value={false}>Não</option>
                         <option value={true}>Sim</option>
                     </select>
-                    <BtnLimpar onClick={limparFiltro} />
-                    <BtnBuscar onClick={() => {}} />
+                    <BtnLimpar onClick={() => {limparFiltro(); setInput('');}} />
+                    <BtnBuscar onClick={() => {limparFiltro(); changeFiltroValue(input);}} />
                 </div>
                 <p className="fst-italic text-end">Registros encontrados: {pagination.totalElements}</p>
             </Col>

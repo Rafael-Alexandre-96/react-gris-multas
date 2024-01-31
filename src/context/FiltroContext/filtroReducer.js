@@ -1,6 +1,6 @@
-import { ACTIONS } from "./veiculoAction";
+import { ACTIONS } from "./filtroAction";
 
-export const veiculoReducer = (state, action) => {
+export const filtroReducer = (state, action) => {
     switch(action.type) {
         case ACTIONS.CHANGE_FILTRO_VALUE: {
             return { ...state, filtro: { ...state.filtro, value: action.payload } }
