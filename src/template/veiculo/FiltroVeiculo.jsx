@@ -1,9 +1,17 @@
+import { Col, Row } from "react-bootstrap";
 import { BtnBuscar, BtnLimpar } from "../common/CustomButtons";
+import { useContext } from "react";
+import { VeiculoContext } from "../../context/VeiculoContext/VeiculoContextProvider";
 
-export const FiltroVeiculo = ({filtro, totalElements, handleOnChangeFiltro, handleOnChangeDesativado, handleOnClickBuscar, handleOnClickLimpar}) => {
+export const FiltroVeiculo = () => {
+    const veiculoContext = useContext(VeiculoContext);
+    const {
+        state: { filtro, pagination }, changeFiltroValue, changeFiltroShowDeactive, limparFiltro
+    } = veiculoContext;
+
     return(
-        <div className="row">
-            <div className="col-12">
+        <Row>
+            <Col>
                 <div className="input-group">
                     <label className="input-group-text" htmlFor="filtro">Filtro</label>
                     <input
@@ -13,23 +21,23 @@ export const FiltroVeiculo = ({filtro, totalElements, handleOnChangeFiltro, hand
                         id="filtro"
                         placeholder="Filtro"
                         value={filtro?.value || ''}
-                        onChange={handleOnChangeFiltro}
+                        onChange={(e) => changeFiltroValue(e.target.value)}
                     />
                     <label className="input-group-text" htmlFor="comboDesativado">Mostrar Desativados?</label>
                     <select
                         className="form-select"
                         id="comboDesativado"
                         value={filtro?.showDeactive || false}
-                        onChange={handleOnChangeDesativado}
+                        onChange={(e) => changeFiltroShowDeactive(e.target.value)}
                     >
                         <option value={false}>Não</option>
                         <option value={true}>Sim</option>
                     </select>
-                    <BtnLimpar onClick={handleOnClickLimpar} />
-                    <BtnBuscar onClick={handleOnClickBuscar} />
+                    <BtnLimpar onClick={limparFiltro} />
+                    <BtnBuscar onClick={() => {}} />
                 </div>
-                <p className="fst-italic text-end">Registros encontrados: {totalElements}</p>
-            </div>
-        </div>
+                <p className="fst-italic text-end">Registros encontrados: {pagination.totalElements}</p>
+            </Col>
+        </Row>
     );
 }

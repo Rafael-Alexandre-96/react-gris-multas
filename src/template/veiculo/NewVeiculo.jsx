@@ -3,10 +3,12 @@ import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
 import api from "../../service/api";
 import { BtnSalvarSm } from "../common/CustomButtons";
 import { BdgNovo } from "../common/CustomBadges";
-import { ACTIONS } from "../../context/ModalContext/modalAction";
 
 export const NewVeiculo = ({updateFunction}) => {
     const modalContext = useContext(ModalContext);
+    const {
+        showModalSuccess, showModalDanger
+    } = modalContext;
     const [veiculo, setVeiculo] = useState();
 
     const handleSalvar = async () => {
@@ -14,7 +16,7 @@ export const NewVeiculo = ({updateFunction}) => {
             .then(() => {
                 setVeiculo(null);
                 updateFunction();
-                showModalSuccess();
+                showModalSuccess("Registro salvo com sucesso.");
             })
             .catch(
                 (error) => {
@@ -26,20 +28,6 @@ export const NewVeiculo = ({updateFunction}) => {
                 }
             );
     };
-
-    const showModalSuccess = () => {
-        modalContext.dispatch({ type: ACTIONS.CHANGE_TITLE, payload: "Registro salvo"});
-        modalContext.dispatch({ type: ACTIONS.CHANGE_BODY, payload: "Registro salvo com sucesso"});
-        modalContext.dispatch({ type: ACTIONS.SUCCESS });
-        modalContext.dispatch({ type: ACTIONS.SHOW });
-    }
-
-    const showModalDanger = (body) => {
-        modalContext.dispatch({ type: ACTIONS.CHANGE_TITLE, payload: "Erro"});
-        modalContext.dispatch({ type: ACTIONS.CHANGE_BODY, payload: body});
-        modalContext.dispatch({ type: ACTIONS.DANGER });
-        modalContext.dispatch({ type: ACTIONS.SHOW });
-    }
 
     return(
         <tr>
