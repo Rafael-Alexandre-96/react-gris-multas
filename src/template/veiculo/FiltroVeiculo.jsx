@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BtnBuscar, BtnLimpar } from "../common/CustomButtons";
 import { useContext } from "react";
@@ -9,8 +8,6 @@ export const FiltroVeiculo = () => {
     const {
         state: { filtro, pagination }, changeFiltroValue, changeFiltroShowDeactive, limparFiltro
     } = filtroContext;
-
-    const [input, setInput] = useState('');
 
     return(
         <Row>
@@ -23,8 +20,8 @@ export const FiltroVeiculo = () => {
                         name="filtro"
                         id="filtro"
                         placeholder="Filtro"
-                        value={input || ''}
-                        onChange={(e) => setInput(e.target.value)}
+                        value={filtro?.value || ''}
+                        onChange={(e) => changeFiltroValue(e.target.value)}
                     />
                     <label className="input-group-text" htmlFor="comboDesativado">Mostrar Desativados?</label>
                     <select
@@ -36,8 +33,8 @@ export const FiltroVeiculo = () => {
                         <option value={false}>Não</option>
                         <option value={true}>Sim</option>
                     </select>
-                    <BtnLimpar onClick={() => {limparFiltro(); setInput('');}} />
-                    <BtnBuscar onClick={() => {limparFiltro(); changeFiltroValue(input);}} />
+                    <BtnLimpar onClick={() => {limparFiltro();}} />
+                    <BtnBuscar onClick={() => {}} />
                 </div>
                 <p className="fst-italic text-end">Registros encontrados: {pagination.totalElements}</p>
             </Col>

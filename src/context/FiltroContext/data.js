@@ -8,5 +8,9 @@ export const filtroState = {
         inPage: 5,
         totalPages: 1,
         totalElements: 0
+    },
+    sort: {
+        field: "",
+        asc: true
     }
 }

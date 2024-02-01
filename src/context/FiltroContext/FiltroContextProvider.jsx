@@ -33,8 +33,20 @@ export const FiltroContextProvider = ({children}) => {
         dispatch({ type: ACTIONS.CHANGE_TOTAL_PAGES, payload: value });
     };
 
+    const changeSortField = (value) => {
+        dispatch({ type: ACTIONS.CHANGE_SORT_FIELD, payload: value })
+    };
+
+    const changeSortAsc = (value) => {
+        dispatch({ type: ACTIONS.CHANGE_SORT_ASC, payload: value })
+    }
+
+    const toggleSortAsc = () => {
+        dispatch({ type: ACTIONS.TOGGLE_ASC })
+    }
+
     return(
-        <FiltroContext.Provider value={{ state, changeFiltroValue, changeFiltroShowDeactive, limparFiltro, changePage, changeTotalElements, changeTotalPages }}>
+        <FiltroContext.Provider value={{ state, changeFiltroValue, changeFiltroShowDeactive, limparFiltro, changePage, changeTotalElements, changeTotalPages, changeSortField, changeSortAsc, toggleSortAsc }}>
             {children}
         </FiltroContext.Provider>
     );

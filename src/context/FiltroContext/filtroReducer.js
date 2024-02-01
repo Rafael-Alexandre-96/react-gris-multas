@@ -14,6 +14,10 @@ export const filtroReducer = (state, action) => {
                 filtro: {
                     value: '',
                     showDeactive: true
+                },
+                sort: {
+                    field: "",
+                    asc: true
                 }
             }
         }
@@ -28,6 +32,15 @@ export const filtroReducer = (state, action) => {
         }
         case ACTIONS.CHANGE_TOTAL_ELEMENTS: {
             return { ...state, pagination: { ...state.pagination, totalElements: action.payload } }
+        }
+        case ACTIONS.CHANGE_SORT_FIELD: {
+            return { ...state, sort: { ...state.sort, field: action.payload } }
+        }
+        case ACTIONS.CHANGE_SORT_ASC: {
+            return { ...state, sort: { ...state.sort, asc: action.payload } }
+        }
+        case ACTIONS.TOGGLE_ASC: {
+            return { ...state, sort: { ...state.sort, asc: !state.sort.asc } }
         }
         default: {
             return { ...state }; 
