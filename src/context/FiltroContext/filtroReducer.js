@@ -8,6 +8,22 @@ export const filtroReducer = (state, action) => {
         case ACTIONS.CHANGE_FILTRO_SHOW_DEACTIVE: {
             return { ...state, filtro: { ...state.filtro, showDeactive: action.payload } }
         }
+        case ACTIONS.FILTER_RESULTS: {
+            return {
+                filtro: {
+                    value: action.payload.value,
+                    showDeactive: action.payload.showDeactive
+                },
+                pagination: {
+                    ...state.pagination,
+                    page: 0
+                },
+                sort: {
+                    field: "placa",
+                    asc: true
+                }
+            }
+        }
         case ACTIONS.CLEAN_FILTRO: {
             return {
                 ...state,

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
-import api from "../../service/api";
+import * as service from "../../service/api/veiculoService";
 import { BtnSalvarSm } from "../common/CustomButtons";
 import { BdgNovo } from "../common/CustomBadges";
 
@@ -12,21 +12,19 @@ export const NewVeiculo = ({updateFunction}) => {
     const [veiculo, setVeiculo] = useState();
 
     const handleSalvar = async () => {
-        await api.post("/veiculo", {...veiculo})
-            .then(() => {
-                setVeiculo(null);
-                updateFunction();
-                showModalSuccess("Registro salvo com sucesso.");
-            })
-            .catch(
-                (error) => {
-                    var message = error.response.data.message;
-                    error.response.data.fieldErros?.forEach((fieldError) => 
-                        message += `\n ${fieldError.field}: ${fieldError.errorMsg}`
-                    );
-                    showModalDanger(message);
-                }
+        try {
+            await service.createVeiculo({...veiculo});
+            setVeiculo(null);
+            updateFunction();
+            showModalSuccess(["Registro salvo com sucesso."]);
+        } catch (error) {
+            var message = [];
+            message.push(error.response.data.message);
+            error.response.data.fieldErros?.forEach((fieldError) => 
+                message.push(`\n ${fieldError.field}: ${fieldError.errorMsg}`)
             );
+            showModalDanger(message);
+        }
     };
 
     return(

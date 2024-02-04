@@ -16,6 +16,10 @@ export const FiltroContextProvider = ({children}) => {
         dispatch({ type: ACTIONS.CHANGE_FILTRO_SHOW_DEACTIVE, payload: value });
     };
 
+    const filterResults = (value) => {
+        dispatch({ type: ACTIONS.FILTER_RESULTS, payload: value });
+    }
+
     const limparFiltro = () => {
         dispatch({ type: ACTIONS.CLEAN_FILTRO });
         dispatch({ type: ACTIONS.CHANGE_PAGE, payload: 0 });
@@ -46,7 +50,7 @@ export const FiltroContextProvider = ({children}) => {
     }
 
     return(
-        <FiltroContext.Provider value={{ state, changeFiltroValue, changeFiltroShowDeactive, limparFiltro, changePage, changeTotalElements, changeTotalPages, changeSortField, changeSortAsc, toggleSortAsc }}>
+        <FiltroContext.Provider value={{ state, changeFiltroValue, changeFiltroShowDeactive, filterResults, limparFiltro, changePage, changeTotalElements, changeTotalPages, changeSortField, changeSortAsc, toggleSortAsc }}>
             {children}
         </FiltroContext.Provider>
     );

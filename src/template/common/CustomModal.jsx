@@ -14,7 +14,11 @@ export const CustomModal = () => {
             <Modal.Header closeButton style={{background: background}}>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{body}</Modal.Body>
+            <Modal.Body>
+                { body.map((msg) => (
+                    <p key={msg}>{msg}</p>
+                ))}
+            </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={closeModal}>Fechar</Button>
             </Modal.Footer>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
-import api from "../../service/api";
+import * as service from "../../service/api/veiculoService";
 import { BtnSalvarSm, BtnEditarSm, BtnDesativarSm, BtnAtivarSm } from "../common/CustomButtons";
 import { BdgAtivo, BdgInativo } from "../common/CustomBadges";
 
@@ -19,35 +19,31 @@ export const RecordVeiculo = ({entity}, key) => {
     }, [entity]);
 
     const handleSalvar = async () => {
-        await api.put(`/veiculo/${veiculo.id}`, {...veiculo})
-            .then(() => {
-                api.get(`/veiculo/${veiculo.id}`).then((response) => {setVeiculo(response.data)});
-                showModalSuccess("Registro salvo com sucesso.");
-                setStatus(true);
-            })
-            .catch(
-                (error) => {
-                    var message = error.response.data.message;
-                    error.response.data.fieldErros?.forEach((fieldError) => 
-                        message += `\n ${fieldError.field}: ${fieldError.errorMsg}`
-                    );
-                    showModalDanger(message);
-                }
+        try {
+            let result = await service.updateVeiculo(veiculo.id, {...veiculo});
+            setVeiculo(result.data);
+            showModalSuccess(["Registro salvo com sucesso."]);
+            setStatus(true);
+        } catch (error) {
+            var message = [];
+            message.push(error.response.data.message);
+            error.response.data.fieldErros?.forEach((fieldError) => 
+                message.push(`\n ${fieldError.field}: ${fieldError.errorMsg}`)
             );
+            showModalDanger(message);
+        }
     };
 
     const handleAtivar = async () => {
-        await api.patch(`/veiculo/${veiculo.id}/active`).then(() => {
-            api.get(`/veiculo/${veiculo.id}`).then((response) => {setVeiculo(response.data)});
-        });
-    }
+        let result = await service.activeVeiculo(veiculo.id);
+        setVeiculo(result.data);
+    };
 
     const handleDesativar = async () => {
-        await api.patch(`/veiculo/${veiculo.id}/deactive`).then(() => {
-            api.get(`/veiculo/${veiculo.id}`).then((response) => {setVeiculo(response.data)});
-        });
-    }
-    
+        let result = await service.deactiveVeiculo(veiculo.id);
+        setVeiculo(result.data);
+    };
+
     return(
         <tr key={key}>
             <td className="align-middle">
