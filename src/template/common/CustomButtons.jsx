@@ -30,6 +30,16 @@ export const BtnDesativarSm = ({onClick}) => (
     </Button>
 )
 
+export const BtnDeletarSm = ({onClick}) => (
+    <Button
+        variant="danger"
+        size="sm"
+        onClick={onClick}
+    >
+        Deletar
+    </Button>
+)
+
 export const BtnAtivarSm = ({onClick}) => (
     <Button 
         variant="warning"

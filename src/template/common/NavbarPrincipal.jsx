@@ -16,7 +16,7 @@ export const NavbarPrincipal = () => (
 				        <div className="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cadastros</div>
 				        <ul className="dropdown-menu">
 					        <li><a className="dropdown-item" href={`/motorista`}>Motorista</a></li>
-					        <li><a className="dropdown-item" href={`/`}>Multa</a></li>
+					        <li><a className="dropdown-item" href={`/multa`}>Multa</a></li>
 					        <li><a className="dropdown-item" href={`/veiculo`}>Veículo</a></li>
 				        </ul>
 			        </li>

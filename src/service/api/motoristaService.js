@@ -24,6 +24,14 @@ export const findByFiltro = async (value, showDeactive, page, field, asc) => {
     return data;
 };
 
+export const findAll = async () => {
+    let data = null;
+    await api.get(`/motorista`)
+        .then((response) => data = response)
+        .catch((error) => { throw error });
+    return data;
+};
+
 export const activeMotorista = async (id) => {
     let data = null;
     await api.patch(`/motorista/${id}/active`)

@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { IndexDashboard } from './template/dashboard/IndexDashboard';
 import { IndexVeiculo } from './template/veiculo/IndexVeiculo';
 import { IndexMotorista } from './template/motorista/IndexMotorista';
+import { IndexMulta } from './template/multa/IndexMulta';
+import { EditMulta } from './template/multa/EditMulta';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,14 @@ const router = createBrowserRouter([
   {
     path: "/veiculo",
     element: <IndexVeiculo />,
+  },
+  {
+    path: "/multa",
+    element: <IndexMulta />,
+  },
+  {
+    path: "/multa/editar",
+    element: <EditMulta />,
   },
   {
     path: "/motorista",
