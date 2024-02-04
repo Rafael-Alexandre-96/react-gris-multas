@@ -19,7 +19,7 @@ export const filtroReducer = (state, action) => {
                     page: 0
                 },
                 sort: {
-                    field: "placa",
+                    field: '',
                     asc: true
                 }
             }
@@ -32,7 +32,7 @@ export const filtroReducer = (state, action) => {
                     showDeactive: true
                 },
                 sort: {
-                    field: "",
+                    field: '',
                     asc: true
                 }
             }
