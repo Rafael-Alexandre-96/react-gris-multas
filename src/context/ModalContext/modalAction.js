@@ -4,5 +4,8 @@ export const ACTIONS = {
     SHOW: "SHOW",
     HIDE: "HIDE",
     SUCCESS: "SUCCESS",
-    DANGER: "DANGER"
+    DANGER: "DANGER",
+    WARNING: "WARNING",
+    SET_ON_YES_NO: "SET_ON_YES_NO",
+    SET_QUESTION: "SET_QUESTION"
 }

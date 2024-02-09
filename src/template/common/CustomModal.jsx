@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 export const CustomModal = () => {
     const modalContext = useContext(ModalContext);
     const {
-        state: { body, title, show, background }, closeModal
+        state: { body, title, show, background, question, onYes, onNo }, closeModal
     } = modalContext;
 
     return(
@@ -20,7 +20,14 @@ export const CustomModal = () => {
                 ))}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={closeModal}>Fechar</Button>
+                { question ? 
+                    <>
+                        <Button variant="success" onClick={() => {closeModal(); onYes();}}>Sim</Button>
+                        <Button variant="danger" onClick={() => {closeModal(); onNo();}}>Não</Button>
+                    </>
+                :
+                    <Button variant="primary" onClick={closeModal}>Fechar</Button>
+                }
             </Modal.Footer>
         </Modal>
     );
