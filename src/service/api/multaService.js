@@ -1,4 +1,4 @@
-import api from '../api';
+import api from './api';
 
 export const createMulta = async (body) => {
     let data = null;
@@ -19,6 +19,14 @@ export const updateMulta = async (id, body) => {
 export const findByFiltro = async (page, field, asc) => {
     let data = null;
     await api.get(`/multa/filtro?page=${page}&inPage=10&sort=${field}&asc=${asc}`)
+        .then((response) => data = response)
+        .catch((error) => { throw error });
+    return data;
+};
+
+export const findById = async (id) => {
+    let data = null;
+    await api.get(`/multa/${id}`)
         .then((response) => data = response)
         .catch((error) => { throw error });
     return data;
