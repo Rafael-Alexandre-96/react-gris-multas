@@ -6,3 +6,8 @@
 	color: white !important;
 	letter-spacing: 3px;
 }
+
+thead tr th:hover {
+	filter: brightness(0.95);
+	cursor: pointer;
+}
