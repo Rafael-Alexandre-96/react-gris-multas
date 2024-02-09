@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import * as service from "../../service/api/motoristaService";
 import { NewMotorista } from "./NewMotorista";
 import { RecordMotorista } from "./RecordMotorista";
+import { TableHeaders } from "../common/TableHeaders";
 
 export const TableMotorista = () => {
     const modalContext = useContext(ModalContext);
@@ -14,7 +15,7 @@ export const TableMotorista = () => {
 
     const filtroContext = useContext(FiltroContext);
     const {
-        state: { filtro, pagination, sort }, changeTotalElements, changeTotalPages, changeSortField, toggleSortAsc
+        state: { filtro, pagination, sort }, changeTotalElements, changeTotalPages
     } = filtroContext;
 
     const [motoristas, setMotoristas] = useState([]);
@@ -38,14 +39,13 @@ export const TableMotorista = () => {
 
     return(
         <Table responsive striped bordered size="sm">
-            <thead className="text-center">
-                <tr>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("nome"); toggleSortAsc()}}>Placa</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("cpf"); toggleSortAsc()}}>CPF</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("registroStatus.active"); toggleSortAsc()}}>Status</th>
-                    <th className="bg-light">Ações</th>
-                </tr>
-            </thead>
+            <TableHeaders 
+                fields={[
+                    {desc: "Nome", sort: "nome"},
+                    {desc: "CPF", sort: "cpf"},
+                    {desc: "Status", sort: "registroStatus.active"}
+                ]}
+            />
             <tbody className="text-center">
                 { motoristas && motoristas.map((entity) => (
                     <RecordMotorista entity={entity} key={entity.id} />

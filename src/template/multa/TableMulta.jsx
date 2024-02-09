@@ -4,6 +4,7 @@ import { FiltroContext } from "../../context/FiltroContext/FiltroContextProvider
 import Table from 'react-bootstrap/Table';
 import * as service from "../../service/api/multaService";
 import { RecordMulta } from "./RecordMulta";
+import { TableHeaders } from "../common/TableHeaders";
 
 export const TableMulta = () => {
     const modalContext = useContext(ModalContext);
@@ -13,7 +14,7 @@ export const TableMulta = () => {
 
     const filtroContext = useContext(FiltroContext);
     const {
-        state: { filtro, pagination, sort }, changeTotalElements, changeTotalPages, changeSortField, toggleSortAsc
+        state: { filtro, pagination, sort }, changeTotalElements, changeTotalPages
     } = filtroContext;
 
     const [multas, setMultas] = useState([]);
@@ -37,17 +38,16 @@ export const TableMulta = () => {
 
     return(
         <Table responsive striped bordered size="sm">
-            <thead className="text-center">
-                <tr>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("dataInfracao"); toggleSortAsc()}}>Data Infração</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("local"); toggleSortAsc()}}>Local</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("enquadramento.descricao"); toggleSortAsc()}}>Infração</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("veiculo.placa"); toggleSortAsc()}}>Tração</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("semiReboque.placa"); toggleSortAsc()}}>Reboque</th>
-                    <th className="bg-light" style={{ cursor: "pointer" }} onClick={() => {changeSortField("motorista.nome"); toggleSortAsc()}}>Motorista</th>
-                    <th className="bg-light">Ações</th>
-                </tr>
-            </thead>
+            <TableHeaders 
+                fields={[
+                    {desc: "Data/Hora Infração", sort: "dataInfracao"},
+                    {desc: "Local", sort: "local"},
+                    {desc: "Infração", sort: "enquadramento.descricao"},
+                    {desc: "Tração", sort: "veiculo.placa"},
+                    {desc: "Reboque", sort: "semiReboque.placa"},
+                    {desc: "Motorista", sort: "motorista.nome"}
+                ]}
+            />
             <tbody className="text-center">
                 { multas && multas.map((entity) => (
                     <RecordMulta entity={entity} key={entity.id} updateFunction={findByFiltro} />
