@@ -30,6 +30,11 @@ export const FrmMulta = () => {
         params.id && loadMulta(params.id);
     }, [params.id]);
 
+
+    useEffect(() => {
+        console.log(multa);
+    }, [multa]);
+    
     const loadData = async () => {
         let resEnquandramentos = await enquadramentoService.findAll();
         setEnquadramentos(resEnquandramentos.data);
@@ -220,23 +225,24 @@ export const FrmMulta = () => {
                 name="valorBoleto"
                 label="Valor Boleto"
                 placeholder="Valor Boleto"
-                value={multa?.valorBoleto || 0}
-                onChange={(e) => setMulta({...multa, valorBoleto: e.target.value.replace(',', '.'), descontoBoleto: e.target.value * 0.2, valorNi: parseFloat(e.target.value) * parseFloat(multa.multiplicadorNi), descontoNi: (e.target.value * multa.multiplicadorNi * 0.2)})}
+                value={multa?.valorBoleto || ''}
+                //onChange={(e) => setMulta({...multa, valorBoleto: e.target.value, descontoBoleto: e.target.value * 0.2, valorNi: parseFloat(e.target.value) * parseFloat(multa.multiplicadorNi), descontoNi: (e.target.value * multa.multiplicadorNi * 0.2)})}
+                onChange={(value) => setMulta({ ...multa, valorBoleto: value })}
             />
             <DoubleLabel
                 className="col-lg-2"
                 name="descontoBoleto"
                 label="Desconto Boleto"
                 placeholder="Desconto Boleto"
-                value={multa?.descontoBoleto || 0}
-                onChange={(e) => setMulta({...multa, descontoBoleto: e.target.value.replace(',', '.')})}
+                value={multa?.descontoBoleto || ''}
+                onChange={(e) => setMulta({...multa, descontoBoleto: e.target.value })}
             />
             <DoubleLabel
                 className="col-lg-2"
                 name="descontoBoleto"
                 label="Vale Boleto"
                 placeholder="Vale Boleto"
-                value={multa?.valorBoleto - multa?.descontoBoleto || 0}
+                value={multa?.valorBoleto - multa?.descontoBoleto || ''}
                 onChange={() => {}}
             />
             <DateLabel
@@ -280,7 +286,7 @@ export const FrmMulta = () => {
                 name="valorNi"
                 label="Valor NI"
                 placeholder="Valor NI"
-                value={multa?.valorNi || 0}
+                value={multa?.valorNi || ''}
                 onChange={(e) => setMulta({...multa, valorNi: e.target.value, descontoNi: e.target.value * 0.2})}
             />
             <DoubleLabel
@@ -288,7 +294,7 @@ export const FrmMulta = () => {
                 name="descontoNi"
                 label="Desconto NI"
                 placeholder="Desconto NI"
-                value={multa?.descontoNi || 0}
+                value={multa?.descontoNi || ''}
                 onChange={(e) => setMulta({...multa, descontoNi: e.target.value})}
             />
             <DateLabel
@@ -308,9 +314,9 @@ export const FrmMulta = () => {
                 onChange={(e) => setMulta({...multa, observacao: e.target.value})}
             />
 
-            <div class="input-group">
+            <div className="input-group">
                 <BtnSalvar onClick={handleSalvar} />
-                <BtnImprimir onClick={() => {}} />
+                <BtnImprimir onClick={() => window.open(`/multa/imprimir/${multa.id}`, '_blank')} />
                 <BtnVoltar onClick={() => navigate('/multa')} />
             </div>          
         </div>

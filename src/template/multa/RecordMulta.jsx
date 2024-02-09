@@ -35,15 +35,15 @@ export const RecordMulta = ({entity, updateFunction}, key) => {
     };
 
     return(
-        <tr key={key} style={{ fontSize: "90%"}}>
+        <tr key={key} style={{ fontSize: "80%"}}>
             <td className="align-middle">
-                <span>{utils.formatData(multa?.dataInfracao) || ''}</span>
+                <span>{utils.formatDateTime(multa?.dataInfracao) || ''}</span>
             </td>
             <td className="align-middle">
-                <span>{multa?.local || ''}</span>
+                <span>{utils.limitString(multa?.local, 25) || ''}</span>
             </td>
             <td className="align-middle">
-                <span>{utils.limitString(multa?.enquadramento?.descricao, 100) || ''}</span>
+                <span>{utils.limitString(multa?.enquadramento?.descricao, 25) || ''}</span>
             </td>
             <td className="align-middle">
                 <span>{multa?.veiculo?.placa || ''}</span>
@@ -56,7 +56,7 @@ export const RecordMulta = ({entity, updateFunction}, key) => {
             </td>
             <td className="d-flex gap-1 justify-content-between">
                 <BtnEditarSm onClick={() => navigate(`/multa/editar/${multa.id}`)} />
-                <BtnImprimirSm onClick={() => {}} />
+                <BtnImprimirSm onClick={() => window.open(`/multa/imprimir/${multa.id}`, '_blank')} />
                 <BtnDeletarSm onClick={handleDeletar} />
             </td>
         </tr>
