@@ -30,7 +30,26 @@ export const NumberLabel = ({className, name, label, placeholder, value, onChang
     </div>
 )
 
-export const DateLabel = ({className, name, label, placeholder, value, onChange, min=-100, max=100}) => (
+export const DoubleLabel = ({className, name, label, placeholder, value, onChange}) => {
+    return (
+        <div className={className}>
+            <label htmlFor={name} className="form-label">{label}</label>
+            <input
+                type="text"
+                className="form-control"
+                name={name}
+                id={name}
+                placeholder={placeholder}
+                value={value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
+                onFocus={(e) => {e.target.value = value}}
+                onChange={onChange}
+                onBlur={(e) => {e.target.value = parseFloat(value).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}}
+            />
+        </div>
+    );
+}
+
+export const DateLabel = ({className, name, label, placeholder, value, onChange}) => (
     <div className={className}>
         <label htmlFor={name} className="form-label">{label}</label>
         <input
@@ -39,13 +58,13 @@ export const DateLabel = ({className, name, label, placeholder, value, onChange,
             name={name}
             id={name}
             placeholder={placeholder}
-            value={value}
+            value={value.substr(0, 10)}
             onChange={onChange}
         />
     </div>
 )
 
-export const DateTimeLabel = ({className, name, label, placeholder, value, onChange, min=-100, max=100}) => (
+export const DateTimeLabel = ({className, name, label, placeholder, value, onChange}) => (
     <div className={className}>
         <label htmlFor={name} className="form-label">{label}</label>
         <input
