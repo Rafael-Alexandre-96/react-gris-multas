@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const InputLabel = ({className, name, label, placeholder, value, onChange}) => (
     <div className={className}>
         <label htmlFor={name} className="form-label">{label}</label>
@@ -31,6 +33,8 @@ export const NumberLabel = ({className, name, label, placeholder, value, onChang
 )
 
 export const DoubleLabel = ({className, name, label, placeholder, value, onChange}) => {
+    const [masked, setMasked] = useState('');
+
     return (
         <div className={className}>
             <label htmlFor={name} className="form-label">{label}</label>
@@ -40,10 +44,17 @@ export const DoubleLabel = ({className, name, label, placeholder, value, onChang
                 name={name}
                 id={name}
                 placeholder={placeholder}
-                value={value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
-                onFocus={(e) => {e.target.value = value}}
-                onChange={onChange}
-                onBlur={(e) => {e.target.value = parseFloat(value).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}}
+                value={masked}
+                onChange={(e) => {
+                    let value = e.target.value.split(',');
+                    if (value[1]?.length > 2)
+                        setMasked(e.target.value.substring(0, e.target.value.length - 1));
+                    else
+                        setMasked(value);
+                }}
+                onBlur={() => {
+                    onChange(masked.replace(',', '.'));
+                }}
             />
         </div>
     );
