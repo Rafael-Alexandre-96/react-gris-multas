@@ -50,7 +50,7 @@ export const TableMulta = () => {
             </thead>
             <tbody className="text-center">
                 { multas && multas.map((entity) => (
-                    <RecordMulta entity={entity} key={entity.id} />
+                    <RecordMulta entity={entity} key={entity.id} updateFunction={findByFiltro} />
                 ))}
             </tbody>
         </Table>

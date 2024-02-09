@@ -3,12 +3,15 @@ import { NavbarPrincipal } from "../common/NavbarPrincipal";
 import { PrincipalCard } from "../common/PrincipalCard";
 import { FiltroMulta } from "./FiltroMulta";
 import { TableMulta } from "./TableMulta";
+import { ActionButton } from "./ActionButton";
 import { Pagination } from "../common/Pagination";
 import { ModalContextProvider } from "../../context/ModalContext/ModalContextProvider";
 import { FiltroContextProvider } from "../../context/FiltroContext/FiltroContextProvider";
 import { CustomModal } from "../common/CustomModal";
 
 export const IndexMulta = () => {
+    
+
     return(
         <ModalContextProvider>
             <NavbarPrincipal />
@@ -16,6 +19,7 @@ export const IndexMulta = () => {
                 <PrincipalCard title="Cadastro de Multa">
                     <FiltroContextProvider>
                         <FiltroMulta />
+                        <ActionButton />
                         <TableMulta />
                         <Pagination />
                     </FiltroContextProvider>

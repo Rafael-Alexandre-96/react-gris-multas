@@ -1,36 +1,49 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
 import * as service from "../../service/api/multaService";
-import { BtnEditarSm, BtnDeletarSm } from "../common/CustomButtons";
-import { redirect } from "react-router-dom";
+import { BtnEditarSm, BtnDeletarSm, BtnImprimirSm } from "../common/CustomButtons";
+import { useNavigate } from "react-router-dom";
+import * as utils from '../../service/utils/stringFormater';
 
-export const RecordMulta = ({entity}, key) => {
+export const RecordMulta = ({entity, updateFunction}, key) => {
     const modalContext = useContext(ModalContext);
     const {
-        showModalDanger
+        showModalQuestion, showModalDanger
     } = modalContext;
+
+    const navigate = useNavigate();
+
     const [multa, setMulta] = useState();
 
     useEffect(() => {
         setMulta(entity);
     }, [entity]);
 
-    const handleDeletar = async () => {
-        //let result = await service.deleteMulta(multa.id);
-        //setMulta(result.data);
-        showModalDanger(["Deseja deletar?"]);
+    const handleDeletar = () => {
+        showModalQuestion(["Deseja deletar?"], deleteMulta, () => {});
+    };
+
+    const deleteMulta = async () => {
+        try {
+            await service.deleteMulta(multa.id);
+            updateFunction();
+        } catch (error) {
+            var message = [];
+            message.push(error.response.data.message);
+            showModalDanger(message);
+        }
     };
 
     return(
-        <tr key={key}>
+        <tr key={key} style={{ fontSize: "90%"}}>
             <td className="align-middle">
-                <span>{multa?.dataInfracao || ''}</span>
+                <span>{utils.formatData(multa?.dataInfracao) || ''}</span>
             </td>
             <td className="align-middle">
                 <span>{multa?.local || ''}</span>
             </td>
             <td className="align-middle">
-                <span>{multa?.enquadramento?.descricao || ''}</span>
+                <span>{utils.limitString(multa?.enquadramento?.descricao, 100) || ''}</span>
             </td>
             <td className="align-middle">
                 <span>{multa?.veiculo?.placa || ''}</span>
@@ -42,7 +55,8 @@ export const RecordMulta = ({entity}, key) => {
                 <span>{multa?.motorista?.nome || ''}</span>
             </td>
             <td className="d-flex gap-1 justify-content-between">
-                <BtnEditarSm onClick={() => {redirect(`/multa/editar`)}} />
+                <BtnEditarSm onClick={() => navigate(`/multa/editar/${multa.id}`)} />
+                <BtnImprimirSm onClick={() => {}} />
                 <BtnDeletarSm onClick={handleDeletar} />
             </td>
         </tr>

@@ -4,14 +4,18 @@ import * as service from "../../service/api/multaService";
 import * as enquadramentoService from "../../service/api/enquadramentoService";
 import * as veiculoService from "../../service/api/veiculoService";
 import * as motoristaService from "../../service/api/motoristaService";
-import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, TextAreaLabel, NumberLabel } from "../common/CustomInputs";
-import { BtnSalvarSm } from "../common/CustomButtons";
+import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, TextAreaLabel, NumberLabel, DoubleLabel } from "../common/CustomInputs";
+import { BtnSalvar, BtnVoltar, BtnImprimir } from "../common/CustomButtons";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const FrmMulta = () => {
     const modalContext = useContext(ModalContext);
     const {
         showModalSuccess, showModalDanger
     } = modalContext;
+
+    const navigate = useNavigate();
+    const params = useParams();
 
     const [multa, setMulta] = useState({multiplicadorNi: 1, infrator: "MOTORISTA"});
     const [enquadramentos, setEnquadramentos] = useState([]);
@@ -21,6 +25,10 @@ export const FrmMulta = () => {
     useEffect(() => {
         loadData();
     }, []);
+
+    useEffect(() => {
+        params.id && loadMulta(params.id);
+    }, [params.id]);
 
     const loadData = async () => {
         let resEnquandramentos = await enquadramentoService.findAll();
@@ -33,16 +41,26 @@ export const FrmMulta = () => {
         setMotoristas(resMotoristas.data);
     };
 
-    useEffect(() => {
-        console.log(multa);
-    }, [multa]);
-
+    const loadMulta = async (id) => {
+        let resMultas = await service.findById(id);
+        setMulta(resMultas.data);
+    };
         
     const handleSalvar = async () => {
         try {
-            let entity = await service.createMulta({...multa});
-            setMulta(entity);
-            showModalSuccess(["Registro salvo com sucesso."]);
+            let result = {};
+
+            if (params?.id) {
+                result = await service.updateMulta(multa.id, {...multa});
+                setMulta(result.data);
+                showModalSuccess(["Registro salvo com sucesso."]);
+            } else {
+                result = await service.createMulta({...multa});
+                setMulta(result.data);
+                showModalSuccess(["Registro salvo com sucesso."]);
+                navigate(`/multa/editar/${result.data.id}`);
+            }
+            
         } catch (error) {
             var message = [];
             message.push(error.response.data.message);
@@ -197,23 +215,23 @@ export const FrmMulta = () => {
                 value={multa?.vencimentoBoleto || ''}
                 onChange={(e) => setMulta({...multa, vencimentoBoleto: e.target.value})}
             />
-            <InputLabel
+            <DoubleLabel
                 className="col-lg-2"
                 name="valorBoleto"
                 label="Valor Boleto"
                 placeholder="Valor Boleto"
                 value={multa?.valorBoleto || 0}
-                onChange={(e) => setMulta({...multa, valorBoleto: e.target.value, descontoBoleto: e.target.value * 0.2, valorNi: parseFloat(e.target.value) * parseFloat(multa.multiplicadorNi), descontoNi: (e.target.value * multa.multiplicadorNi * 0.2)})}
+                onChange={(e) => setMulta({...multa, valorBoleto: e.target.value.replace(',', '.'), descontoBoleto: e.target.value * 0.2, valorNi: parseFloat(e.target.value) * parseFloat(multa.multiplicadorNi), descontoNi: (e.target.value * multa.multiplicadorNi * 0.2)})}
             />
-            <InputLabel
+            <DoubleLabel
                 className="col-lg-2"
                 name="descontoBoleto"
                 label="Desconto Boleto"
                 placeholder="Desconto Boleto"
                 value={multa?.descontoBoleto || 0}
-                onChange={(e) => setMulta({...multa, descontoBoleto: e.target.value})}
+                onChange={(e) => setMulta({...multa, descontoBoleto: e.target.value.replace(',', '.')})}
             />
-            <InputLabel
+            <DoubleLabel
                 className="col-lg-2"
                 name="descontoBoleto"
                 label="Vale Boleto"
@@ -257,7 +275,7 @@ export const FrmMulta = () => {
                 min={1}
                 max={10}
             />
-            <InputLabel
+            <DoubleLabel
                 className="col-lg-2"
                 name="valorNi"
                 label="Valor NI"
@@ -265,7 +283,7 @@ export const FrmMulta = () => {
                 value={multa?.valorNi || 0}
                 onChange={(e) => setMulta({...multa, valorNi: e.target.value, descontoNi: e.target.value * 0.2})}
             />
-            <InputLabel
+            <DoubleLabel
                 className="col-lg-2"
                 name="descontoNi"
                 label="Desconto NI"
@@ -289,7 +307,12 @@ export const FrmMulta = () => {
                 value={multa?.observacao || ''}
                 onChange={(e) => setMulta({...multa, observacao: e.target.value})}
             />
-            <BtnSalvarSm onClick={handleSalvar} />
+
+            <div class="input-group">
+                <BtnSalvar onClick={handleSalvar} />
+                <BtnImprimir onClick={() => {}} />
+                <BtnVoltar onClick={() => navigate('/multa')} />
+            </div>          
         </div>
     );
 } 
