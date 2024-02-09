@@ -1,36 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import { IndexDashboard } from './template/dashboard/IndexDashboard';
-import { IndexVeiculo } from './template/veiculo/IndexVeiculo';
-import { IndexMotorista } from './template/motorista/IndexMotorista';
-import { IndexMulta } from './template/multa/IndexMulta';
-import { EditMulta } from './template/multa/EditMulta';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <IndexDashboard />,
-  },
-  {
-    path: "/veiculo",
-    element: <IndexVeiculo />,
-  },
-  {
-    path: "/multa",
-    element: <IndexMulta />,
-  },
-  {
-    path: "/multa/editar",
-    element: <EditMulta />,
-  },
-  {
-    path: "/motorista",
-    element: <IndexMotorista />,
-  }
-]);
+import { router } from './service/route/routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

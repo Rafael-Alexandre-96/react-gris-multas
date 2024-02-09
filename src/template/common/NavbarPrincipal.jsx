@@ -1,23 +1,24 @@
+import { Link } from 'react-router-dom';
 import LogoBranco from '../../public/LogoBranco';
 import './styles.css';
 
 export const NavbarPrincipal = () => (
     <nav className="navbar navbar-expand-lg bg-estrela-blue mb-4">
 		<div className="container-fluid">
-		    <a className="navbar-brand text-light" href={`/`}><LogoBranco /></a>
+		    <Link className="navbar-brand text-light" to={`/`}><LogoBranco /></Link>
 		    <button className="navbar-toggler btn-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">...
 		    </button>
 		    <div className="collapse navbar-collapse" id="navbarSupportedContent">
 		    	<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 		        	<li className="nav-item">
-		        		<a className="nav-link text-light" href={`/`}>Dashboard</a>
+		        		<Link className="nav-link text-light" to={`/`}>Dashboard</Link>
 		        	</li>
 			        <li className="nav-item dropdown">
 				        <div className="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">Cadastros</div>
 				        <ul className="dropdown-menu">
-					        <li><a className="dropdown-item" href={`/motorista`}>Motorista</a></li>
-					        <li><a className="dropdown-item" href={`/multa`}>Multa</a></li>
-					        <li><a className="dropdown-item" href={`/veiculo`}>Veículo</a></li>
+					        <li><Link className="dropdown-item" to={`/motorista`}>Motorista</Link></li>
+					        <li><Link className="dropdown-item" to={`/multa`}>Multa</Link></li>
+					        <li><Link className="dropdown-item" to={`/veiculo`}>Veículo</Link></li>
 				        </ul>
 			        </li>
 		      </ul>
