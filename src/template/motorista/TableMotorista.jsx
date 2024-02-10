@@ -1,57 +1,50 @@
-import React, { useEffect, useState, useContext } from "react";
-import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
-import { FiltroContext } from "../../context/FiltroContext/FiltroContextProvider";
+import React, { useEffect, useState, useCallback } from 'react';
+import { useModalContext } from '../../context/ModalContext/ModalContext';
+import { useFiltroContext } from '../../context/FiltroContext/FiltroContext';
 import Table from 'react-bootstrap/Table';
-import * as service from "../../service/api/motoristaService";
-import { NewMotorista } from "./NewMotorista";
-import { RecordMotorista } from "./RecordMotorista";
-import { TableHeaders } from "../common/TableHeaders";
+import * as service from '../../api/motoristaService';
+import { NewMotorista } from './NewMotorista';
+import { RecordMotorista } from './RecordMotorista';
+import { Headers } from '../../components/tableData/Headers';
+import { Body } from '../../components/tableData/Body';
+import * as apiFunctions from '../apiFunctions';
 
 export const TableMotorista = () => {
-    const modalContext = useContext(ModalContext);
-    const {
-        showModalDanger
-    } = modalContext;
+  const [, modalActions] = useModalContext();
+  const [filtroState, filtroActions] = useFiltroContext();
 
-    const filtroContext = useContext(FiltroContext);
-    const {
-        state: { filtro, pagination, sort }, changeTotalElements, changeTotalPages
-    } = filtroContext;
+  const [motoristas, setMotoristas] = useState([]);
 
-    const [motoristas, setMotoristas] = useState([]);
+  const findByFiltro = useCallback(async() => {
+    apiFunctions.findByFiltro(service.findByFiltro(filtroState.filtro.value, filtroState.filtro.showDeactive, filtroState.pagination.page, filtroState.sort.field, filtroState.sort.asc), setMotoristas)
+      .then((motoristas) => {
+        filtroActions.changeTotalElements(motoristas.totalElements);
+        filtroActions.changeTotalPages(motoristas.totalPages);
+      })
+      .catch((error) => {
+        modalActions.showModalDanger(error.message);
+      });
+  }, [filtroActions, filtroState.filtro.showDeactive, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.asc, filtroState.sort.field, modalActions]);
 
-    const findByFiltro = async () => {
-        try {
-            let result = await service.findByFiltro(filtro.value, filtro.showDeactive, pagination.page, sort.field, sort.asc);
-            setMotoristas(result.data.content);
-            changeTotalElements(result.data.totalElements);
-            changeTotalPages(result.data.totalPages);
-        } catch (error) {
-            var message = [];
-            message.push(error.response.data.message);
-            showModalDanger(message);
-        }
-    };
+  useEffect(() => {  
+    findByFiltro();
+  }, [findByFiltro]);
 
-    useEffect(() => {   
-        findByFiltro();
-    }, [pagination.page, sort, filtro]);
-
-    return(
-        <Table responsive striped bordered size="sm">
-            <TableHeaders 
-                fields={[
-                    {desc: "Nome", sort: "nome"},
-                    {desc: "CPF", sort: "cpf"},
-                    {desc: "Status", sort: "registroStatus.active"}
-                ]}
-            />
-            <tbody className="text-center">
-                { motoristas && motoristas.map((entity) => (
-                    <RecordMotorista entity={entity} key={entity.id} />
-                ))}
-                <NewMotorista updateFunction={findByFiltro} />
-            </tbody>
-        </Table>
-    )
+  return(
+    <Table responsive striped bordered size='sm'>
+      <Headers 
+        fields={[
+          {desc: 'Nome', sort: 'nome'},
+          {desc: 'CPF', sort: 'cpf'},
+          {desc: 'Status', sort: 'registroStatus.active'}
+        ]}
+      />
+      <Body>
+        { motoristas.content && motoristas.content.map((entity) => (
+          <RecordMotorista entity={entity} key={entity.id} />
+        ))}
+        <NewMotorista updateFunction={findByFiltro} />
+      </Body>
+    </Table>
+  )
 };

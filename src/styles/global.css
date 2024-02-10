@@ -1,0 +1,9 @@
+:root {
+  /*--bg-estrela-blue: #0B00B6;*/
+  --bg-estrela-blue: navy;
+  --bg-light-gray: lightgray;
+}
+
+.bg-estrela-blue {
+  background-color: var(--bg-estrela-blue);
+}

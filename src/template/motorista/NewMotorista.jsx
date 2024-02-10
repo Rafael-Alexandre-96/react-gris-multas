@@ -1,60 +1,30 @@
-import React, { useState, useContext } from "react";
-import { ModalContext } from '../../context/ModalContext/ModalContextProvider';
-import * as service from "../../service/api/motoristaService";
-import { BtnSalvarSm } from "../common/CustomButtons";
-import { BdgNovo } from "../common/CustomBadges";
+import React, { useState } from 'react';
+import { useModalContext } from '../../context/ModalContext/ModalContext';
+import * as service from '../../api/motoristaService';
+import { New } from './components/New';
+import * as apiFunctions from '../apiFunctions';
 
 export const NewMotorista = ({updateFunction}) => {
-    const modalContext = useContext(ModalContext);
-    const {
-        showModalSuccess, showModalDanger
-    } = modalContext;
-    const [motorista, setMotorista] = useState();
+  const [, modalActions] = useModalContext();
+  const [motorista, setMotorista] = useState();
 
-    const handleSalvar = async () => {
-        try {
-            await service.createMotorista({...motorista});
-            setMotorista(null);
-            updateFunction();
-            showModalSuccess(["Registro salvo com sucesso."]);
-        } catch (error) {
-            var message = [];
-            message.push(error.response.data.message);
-            error.response.data.fieldErros?.forEach((fieldError) => 
-                message.push(`\n ${fieldError.field}: ${fieldError.errorMsg}`)
-            );
-            showModalDanger(message);
-        }
-    };
+  const handleSalvar = async () => {
+    apiFunctions.createEntity(service.createMotorista, motorista, setMotorista)
+      .then(() => {
+        setMotorista(null);
+        updateFunction();
+        modalActions.showModalSuccess('Registro salvo com sucesso.');
+      })
+      .catch((error) => {
+        modalActions.showModalDanger(error.message);
+      });
+  };
 
-    return(
-        <tr>
-            <td className="align-middle">
-                <input
-                    type="text"
-                    className="form-control text-center"
-                    name="nome"
-                    placeholder="Nome"
-                    value={motorista?.nome || ''}
-                    onChange={(e) => setMotorista({...motorista, nome: e.target.value})}
-                />
-            </td>
-            <td className="align-middle">
-                <input
-                    type="text"
-                    className="form-control text-center"
-                    name="cpf"
-                    placeholder="CPF"
-                    value={motorista?.cpf || ''}
-                    onChange={(e) => setMotorista({...motorista, cpf: e.target.value})}
-                />
-            </td>
-            <td className="align-middle">
-                <BdgNovo />
-            </td>
-            <td className="align-middle text-start">
-                <BtnSalvarSm onClick={handleSalvar} />
-            </td>
-        </tr>
-    );
+  return(
+    <New
+      handleSalvar={handleSalvar}
+      motorista={motorista}
+      setMotorista={setMotorista}
+    />
+  );
 }

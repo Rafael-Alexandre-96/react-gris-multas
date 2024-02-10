@@ -1,0 +1,4 @@
+thead tr th:hover {
+	filter: brightness(0.95);
+	cursor: pointer;
+}
