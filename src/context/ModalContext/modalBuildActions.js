@@ -18,12 +18,12 @@ export const buildActions = (dispatch) => {
       dispatch({ type: actions.DANGER });
       dispatch({ type: actions.SHOW });
     },
-    showModalQuestion: (payload) => {
+    showModalQuestion: (body, onYes, onNo = () => {}) => {
       dispatch({ type: actions.SET_QUESTION, payload: true });
-      dispatch({ type: actions.CHANGE_TITLE, payload: 'Pergunta'});
-      dispatch({ type: actions.CHANGE_BODY, payload: payload.body});
+      dispatch({ type: actions.CHANGE_TITLE, payload: 'Pergunta' });
+      dispatch({ type: actions.CHANGE_BODY, payload: body });
       dispatch({ type: actions.WARNING });
-      dispatch({ type: actions.SET_ON_YES_NO, payload: { onYes: payload.onYes, onNo: payload.onNo }})
+      dispatch({ type: actions.SET_ON_YES_NO, payload: { onYes: onYes, onNo: onNo }})
       dispatch({ type: actions.SHOW });
     },
   }

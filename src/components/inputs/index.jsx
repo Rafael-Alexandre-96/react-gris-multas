@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 export const LabelFiltro = ({htmlFor, value}) => (
   <label className='input-group-text' htmlFor={htmlFor}>{value}</label>
 );
@@ -20,9 +18,7 @@ export const Input = ({className, name, placeholder, value, onChange, maxLength 
 export const InputLabel = ({className, name, label, placeholder, value, onChange}) => (
   <div className={className}>
     <label htmlFor={name} className='form-label'>{label}</label>
-    <input
-      type='text'
-      className='form-control'
+    <Input
       name={name}
       id={name}
       placeholder={placeholder}
@@ -32,12 +28,24 @@ export const InputLabel = ({className, name, label, placeholder, value, onChange
   </div>
 );
 
+export const Number = ({className, name, label, placeholder, value, onChange, min=-100, max=100}) => (
+    <input
+      type='number'
+      className={`form-control ${className}`}
+      name={name}
+      id={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      min={min}
+      max={max}
+    />
+);
+
 export const NumberLabel = ({className, name, label, placeholder, value, onChange, min=-100, max=100}) => (
   <div className={className}>
     <label htmlFor={name} className='form-label'>{label}</label>
-    <input
-      type='number'
-      className='form-control'
+    <Number
       name={name}
       id={name}
       placeholder={placeholder}
@@ -49,33 +57,35 @@ export const NumberLabel = ({className, name, label, placeholder, value, onChang
   </div>
 );
 
-export const DoubleLabel = ({className, name, label, placeholder, value, onChange}) => {
-  const [masked, setMasked] = useState('');
+export const Double = ({className, name, placeholder, value, onChange}) => {
+  return (
+    <input
+      type='text'
+      className={`form-control ${className}`}
+      name={name}
+      id={name}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
 
+export const DoubleLabel = ({className, label, name, placeholder, value, onChange}) => {
   return (
     <div className={className}>
       <label htmlFor={name} className='form-label'>{label}</label>
-      <input
-        type='text'
-        className='form-control'
+      <Double
         name={name}
         id={name}
         placeholder={placeholder}
-        value={masked}
-        onChange={(e) => {
-          let value = e.target.value.split(',');
-          if (value[1]?.length > 2)
-            setMasked(e.target.value.substring(0, e.target.value.length - 1));
-          else
-            setMasked(value);
-        }}
-        onBlur={() => {
-          onChange(masked.replace(',', '.'));
-        }}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
 };
+
 
 export const DateLabel = ({className, name, label, placeholder, value, onChange}) => (
   <div className={className}>
@@ -119,18 +129,52 @@ export const Select = ({name, value, children, onChange}) => (
     </select>
 );
 
-export const SelectLabel = ({className, name, label, value, children, onChange}) => (
-  <div className={className}>
-    <label htmlFor={name} className='form-label'>{label}</label>
-    <select
+export const SelectInfrator = ({name, value, onChange}) => (
+  <select
       className='form-select'
       name={name}
       id={name}
       value={value}
       onChange={onChange}
     >
-      {children}
+      <option value="ANALISE">ANALISE</option>
+      <option value="ARQUIVADO">ARQUIVADO</option>
+      <option value="BAIXA">BAIXA</option>
+      <option value="DESLIGADO">DESLIGADO</option>
+      <option value="EMBARCADOR">EMBARCADOR</option>
+      <option value="EMPRESA">EMPRESA</option>
+      <option value="MANUTENCAO">MANUTENCAO</option>
+      <option value="MOTORISTA">MOTORISTA</option>
+      <option value="OPERACAO">OPERACAO</option>
+      <option value="OUTROS">OUTROS</option>
+      <option value="PEDESTRE">PEDESTRE</option>
+      <option value="RECURSO">RECURSO</option>
     </select>
+);
+
+export const SelectLabel = ({className, name, label, value, children, onChange}) => (
+  <div className={className}>
+    <label htmlFor={name} className='form-label'>{label}</label>
+    <Select
+      name={name}
+      id={name}
+      value={value}
+      onChange={onChange}
+    >
+      {children}
+    </Select>
+  </div>
+);
+
+export const SelectInfratorLabel = ({className, name, label, value, children, onChange}) => (
+  <div className={className}>
+    <label htmlFor={name} className='form-label'>{label}</label>
+    <SelectInfrator
+      name={name}
+      id={name}
+      value={value}
+      onChange={onChange}
+    />
   </div>
 );
 

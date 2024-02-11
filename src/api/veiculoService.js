@@ -13,7 +13,7 @@ export const updateVeiculo = async (id, body) => {
 
 export const findByFiltro = async (value, showDeactive, page, field, asc) => {
   let data = null;
-  await api.get(`/veiculo/filtro?placa=${value}&showDeactive=${showDeactive}&page=${page}&inPage=10&sort=${field}&asc=${asc}`)
+  await api.get(`${path}/filtro?placa=${value}&showDeactive=${showDeactive}&page=${page}&inPage=10&sort=${field}&asc=${asc}`)
     .then((response) => data = response)
     .catch((error) => { throw error });
   return data;
@@ -23,10 +23,10 @@ export const findAll = async () => {
   return baseService.findAll(path);
 };
 
-export const activeVeiculo = async (id) => {
+export const activeVeiculoById = async (id) => {
   return baseService.activeEntityById(path, id);
 };
 
-export const deactiveVeiculo = async (id) => {
+export const deactiveVeiculoById = async (id) => {
   return baseService.deactiveEntityById(path, id);
 };

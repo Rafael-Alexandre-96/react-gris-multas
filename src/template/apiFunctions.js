@@ -1,13 +1,11 @@
-export const changeActiveEntity = async (changeActiveFun, entity, setEntity) => {
+export const changeActiveEntity = async (changeActiveFun, entity) => {
   let result = await changeActiveFun(entity.id);
-  setEntity(result.data);
   return(result.data);
 };
 
-export const createEntity = async (createFun, entity, setEntity) => {
+export const createEntity = async (createFun, entity) => {
   try {
     let result = await createFun({...entity});
-    setEntity(result.data);
     return(result.data);
   } catch (error) {
     var message = [];
@@ -19,10 +17,9 @@ export const createEntity = async (createFun, entity, setEntity) => {
   }
 };
 
-export const updateEntity = async (updateFun, entity, setEntity) => {
+export const updateEntity = async (updateFun, entity) => {
   try {
     let result = await updateFun(entity.id, {...entity});
-    setEntity(result.data);
     return(result.data);
   } catch (error) {
     var message = [];
@@ -34,10 +31,18 @@ export const updateEntity = async (updateFun, entity, setEntity) => {
   }
 };
 
-export const findByFiltro = async (findFun, setEntities) => {
+export const findBy = async (findFun) => {
   try {
     let result = await findFun;
-    setEntities(result.data);
+    return result.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteById = async(deleteFun, entity) => {
+  try {
+    let result = await deleteFun(entity.id);
     return result.data;
   } catch (error) {
     throw error;

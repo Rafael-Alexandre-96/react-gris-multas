@@ -2,25 +2,25 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useModalContext } from '../../context/ModalContext/ModalContext';
 import { useFiltroContext } from '../../context/FiltroContext/FiltroContext';
 import Table from 'react-bootstrap/Table';
-import * as service from '../../api/motoristaService';
-import { NewMotorista } from './NewMotorista';
-import { RecordMotorista } from './RecordMotorista';
+import * as service from '../../api/veiculoService';
+import { NewVeiculo } from './NewVeiculo';
+import { RecordVeiculo } from './RecordVeiculo';
 import { Headers } from '../../components/tableData/Headers';
 import { Body } from '../../components/tableData/Body';
 import * as apiFunctions from '../apiFunctions';
 
-export const TableMotorista = () => {
+export const TableVeiculo = () => {
   const [, modalActions] = useModalContext();
   const [filtroState, filtroActions] = useFiltroContext();
 
-  const [motoristas, setMotoristas] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
 
   const findByFiltro = useCallback(async() => {
-    apiFunctions.findBy(service.findByFiltro(filtroState.filtro.value, filtroState.filtro.showDeactive, filtroState.pagination.page, filtroState.sort.field, filtroState.sort.asc), setMotoristas)
-      .then((motoristas) => {
-        setMotoristas(motoristas);
-        filtroActions.changeTotalElements(motoristas.totalElements);
-        filtroActions.changeTotalPages(motoristas.totalPages);
+    apiFunctions.findBy(service.findByFiltro(filtroState.filtro.value, filtroState.filtro.showDeactive, filtroState.pagination.page, filtroState.sort.field, filtroState.sort.asc), setVeiculos)
+      .then((veiculos) => {
+        setVeiculos(veiculos);
+        filtroActions.changeTotalElements(veiculos.totalElements);
+        filtroActions.changeTotalPages(veiculos.totalPages);
       })
       .catch((error) => {
         modalActions.showModalDanger(error.message);
@@ -35,16 +35,16 @@ export const TableMotorista = () => {
     <Table responsive striped bordered size='sm'>
       <Headers 
         fields={[
-          {desc: 'Nome', sort: 'nome'},
-          {desc: 'CPF', sort: 'cpf'},
+          {desc: 'Placa', sort: 'placa'},
+          {desc: 'Frota', sort: 'frota'},
           {desc: 'Status', sort: 'registroStatus.active'}
         ]}
       />
       <Body>
-        { motoristas.content && motoristas.content.map((entity) => (
-          <RecordMotorista entity={entity} key={entity.id} />
+        { veiculos.content && veiculos.content.map((entity) => (
+          <RecordVeiculo entity={entity} key={entity.id} />
         ))}
-        <NewMotorista updateFunction={findByFiltro} />
+        <NewVeiculo updateFunction={findByFiltro} />
       </Body>
     </Table>
   )

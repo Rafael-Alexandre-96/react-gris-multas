@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useModalContext } from '../../context/ModalContext/ModalContext';
-import * as service from '../../api/motoristaService';
+import * as service from '../../api/enquadramentoService';
 import { New } from './components/New';
 import * as apiFunctions from '../apiFunctions';
 
-export const NewMotorista = ({updateFunction}) => {
+export const NewEnquadramento = ({updateFunction}) => {
   const [, modalActions] = useModalContext();
-  const [motorista, setMotorista] = useState();
+  const [enquadramento, setEnquadramento] = useState({pontos: 0, valor: 0, infrator: 'MOTORISTA'});
 
   const handleSalvar = async () => {
-    apiFunctions.createEntity(service.createMotorista, motorista)
+    apiFunctions.createEntity(service.createEnquadramento, enquadramento)
       .then(() => {
-        setMotorista(null);
+        setEnquadramento({pontos: 0, valor: 0, infrator: 'MOTORISTA'});
         updateFunction();
         modalActions.showModalSuccess('Registro salvo com sucesso.');
       })
@@ -23,8 +23,8 @@ export const NewMotorista = ({updateFunction}) => {
   return(
     <New
       handleSalvar={handleSalvar}
-      motorista={motorista}
-      setMotorista={setMotorista}
+      enquadramento={enquadramento}
+      setEnquadramento={setEnquadramento}
     />
   );
 }

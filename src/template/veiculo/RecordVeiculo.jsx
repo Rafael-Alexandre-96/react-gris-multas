@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useModalContext } from '../../context/ModalContext/ModalContext';
-import * as service from '../../api/motoristaService';
+import * as service from '../../api/veiculoService';
 import { Record } from './components/Record';
 import * as apiFunctions from '../apiFunctions';
 
-export const RecordMotorista = ({entity}) => {
+export const RecordVeiculo = ({entity}) => {
   const [, modalActions] = useModalContext();
-  const [motorista, setMotorista] = useState(entity);
+  const [veiculo, setVeiculo] = useState(entity);
   const [edit, setEdit] = useState();
 
   const handleSalvar = async () => {
-    apiFunctions.updateEntity(service.updateMotorista, motorista)
-      .then((motorista) => {
-        setMotorista(motorista);
+    apiFunctions.updateEntity(service.updateVeiculo, veiculo)
+      .then((veiculo) => {
+        setVeiculo(veiculo);
         modalActions.showModalSuccess('Registro salvo com sucesso.');
         setEdit(false);
       })
@@ -22,9 +22,9 @@ export const RecordMotorista = ({entity}) => {
   };
 
   const handleAtivar = async () => { 
-    apiFunctions.changeActiveEntity(service.deactiveMotoristaById, motorista, setMotorista)
-      .then((motorista) => {
-        setMotorista(motorista);
+    apiFunctions.changeActiveEntity(service.deactiveVeiculoById, veiculo, setVeiculo)
+      .then((veiculo) => {
+        setVeiculo(veiculo);
       })
       .catch((error) => {
         modalActions.showModalDanger(error.message);
@@ -32,9 +32,9 @@ export const RecordMotorista = ({entity}) => {
   };
 
   const handleDesativar = async () => {
-    apiFunctions.changeActiveEntity(service.activeMotoristaById, motorista, setMotorista)
-      .then((motorista) => {
-        setMotorista(motorista);
+    apiFunctions.changeActiveEntity(service.activeVeiculoById, veiculo, setVeiculo)
+      .then((veiculo) => {
+        setVeiculo(veiculo);
       })
       .catch((error) => {
         modalActions.showModalDanger(error.message);
@@ -47,9 +47,9 @@ export const RecordMotorista = ({entity}) => {
       handleAtivar={handleAtivar}
       handleDesativar={handleDesativar}
       handleSalvar={handleSalvar}
-      motorista={motorista}
+      veiculo={veiculo}
       setEdit={setEdit}
-      setMotorista={setMotorista}
+      setVeiculo={setVeiculo}
     />
   );
 }

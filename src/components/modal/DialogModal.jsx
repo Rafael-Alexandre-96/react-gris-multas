@@ -16,8 +16,8 @@ export const DialogModal = () => {
       <Modal.Footer>
         { state.question ? 
           <>
-            <Button variant='success' onClick={() => {actions.closeModal(); actions.onYes();}}>Sim</Button>
-            <Button variant='danger' onClick={() => {actions.closeModal(); actions.onNo();}}>Não</Button>
+            <Button variant='success' onClick={() => {actions.closeModal(); state.onYes();}}>Sim</Button>
+            <Button variant='danger' onClick={() => {actions.closeModal(); state.onNo();}}>Não</Button>
           </>
         :
           <Button variant='primary' onClick={actions.closeModal}>Fechar</Button>

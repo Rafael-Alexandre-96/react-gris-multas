@@ -15,6 +15,7 @@ const index = () => (
 			        <li className='nav-item dropdown'>
 				        <div className='nav-link dropdown-toggle text-light' role='button' data-bs-toggle='dropdown' aria-expanded='false'>Cadastros</div>
 				        <ul className='dropdown-menu'>
+									<li><Link className='dropdown-item' to={`/enquadramento`}>Enquadramento</Link></li>
 					        <li><Link className='dropdown-item' to={`/motorista`}>Motorista</Link></li>
 					        <li><Link className='dropdown-item' to={`/multa`}>Multa</Link></li>
 					        <li><Link className='dropdown-item' to={`/veiculo`}>Veículo</Link></li>
