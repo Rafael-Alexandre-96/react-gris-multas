@@ -33,7 +33,8 @@ export const TableEnquadramento = () => {
 
   return(
     <Table responsive striped bordered size='sm'>
-      <Headers 
+      <Headers
+        isSmall={true}
         fields={[
           {desc: 'Enquadramento', sort: 'numeroEnquadramento'},
           {desc: 'Descrição', sort: 'descricao'},

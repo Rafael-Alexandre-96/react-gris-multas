@@ -1,0 +1,125 @@
+.vale {
+  background: white !important;
+  width: 190mm;
+  padding: 0 7mm;
+}
+
+.grid-logo {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.grid-resume {
+  grid-template-columns: 25mm 32mm 25mm 32mm 25mm 31.5mm;
+  margin-top: 3mm;
+}
+
+.grid-info, .grid-pagamento, .grid-assinatura, .grid-resume {
+  display: grid;
+  gap: 1mm;
+  font-size: 13px;
+}
+
+.grid-info {
+  grid-template-columns: 25mm 150mm;
+  margin-top: 3mm;
+}
+
+.grid-pagamento {
+  grid-template-columns: 30mm 30mm 30mm;
+  margin-top: 3mm;
+}
+
+.grid-assinatura {
+  grid-template-columns: auto 30mm 20mm 70mm; 
+  margin-top: 3mm;
+}
+
+.grid-info>*, .grid-pagamento>*, .grid-resume>* {
+  height: 7mm;
+  padding: 0.5mm 1mm;
+  border-radius: 2mm;
+  border: 1px solid gray;
+  text-wrap: nowrap;
+  overflow: hidden;
+}
+
+.grid-pagamento>* {
+  text-align: center;
+  text-wrap: nowrap;
+  overflow: hidden;
+}
+
+.grid-assinatura>* {
+  height: 7mm;
+  padding: 1mm 1mm;
+  border-radius: 2mm;
+  text-align: center;
+  text-wrap: nowrap;
+  overflow: hidden;
+}
+
+.grid-assinatura div:last-child {
+  border-radius: 0;
+}
+
+.assinatura {
+  border-bottom: 1px solid gray;
+}
+
+.highlight {
+  font-weight: bold;
+  background-color: var(--bg-empresa-color);
+  color: white;
+}
+
+.vale-divider {
+  border: 1px dashed gray;
+  width: 100%;
+  margin: 5mm 0;
+}
+
+.notificacao {
+  padding: 0 7mm;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.grid-data {
+  display: grid;
+  grid-template-columns: 52mm 120mm;
+}
+
+.grid-data div:nth-child(even) {
+  font-weight: bold;
+}
+
+.grid-data div {
+  text-wrap: nowrap;
+  overflow: hidden;
+}
+
+.grid-indicacao {
+  display: grid;
+  grid-template-columns: auto 50mm auto;
+  width: 190mm;
+  margin-top: 20mm;
+}
+
+.grid-indicacao div:nth-child(odd) {
+  border-top: 1px solid gray;
+  text-align: center;
+}
+
+.text-small {
+  font-size: 12px;
+  text-align: center;
+}
+
+.text-small p {
+  margin: 0;
+}

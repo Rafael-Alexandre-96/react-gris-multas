@@ -1,16 +1,20 @@
 import { BtnEditarSm, BtnImprimirSm, BtnDeletarSm } from '../../../components/buttons/index';
 import * as utils from '../../../utils/stringFormater';
+import '../styles.css';
 
 export const Record = ({multa, handleEditar, handleImprimir, handleDeletar}) => (
-  <tr>
+  <tr className='small-text-table'>
     <td className="align-middle">
       <span>{utils.formatDateTime(multa?.dataInfracao) || ''}</span>
     </td>
     <td className="align-middle">
-        <span>{utils.limitString(multa?.local, 25) || ''}</span>
+        <span>{multa?.local || ''}</span>
     </td>
     <td className="align-middle">
-        <span>{utils.limitString(multa?.multa?.descricao, 25) || ''}</span>
+        <span>{multa?.enquadramento?.descricao || ''}</span>
+    </td>
+    <td className="align-middle">
+        <span>{multa?.infrator || ''}</span>
     </td>
     <td className="align-middle">
         <span>{multa?.veiculo?.placa || ''}</span>

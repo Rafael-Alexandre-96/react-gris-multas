@@ -4,6 +4,7 @@ import IndexMotorista from '../template/motorista/index';
 import IndexVeiculo from '../template/veiculo/index';
 import IndexMulta from '../template/multa/index';
 import { EditMulta } from '../template/multa/EditMulta';
+import Vale from '../report/vale/index';
 import IndexEnquadramento from '../template/enquadramento/index'
 
 export const routers = createBrowserRouter([
@@ -31,6 +32,10 @@ export const routers = createBrowserRouter([
   {
     path: '/multa/editar/:id',
     element: <EditMulta />,
+  },
+  {
+    path: '/multa/imprimir/:id',
+    element: <Vale />,
   },
   {
     path: '/enquadramento',

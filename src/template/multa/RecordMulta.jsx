@@ -29,6 +29,7 @@ export const RecordMulta = ({updateFunction, entity}) => {
       edit={edit}
       handleEditar={() => navigate(`/multa/editar/${multa.id}`)}
       handleDeletar={handleDeletar}
+      handleImprimir={() => window.open(`/multa/imprimir/${multa.id}`, '_blank')}
       multa={multa}
       setEdit={setEdit}
       setMulta={setMulta}

@@ -2,7 +2,14 @@ export const LabelFiltro = ({htmlFor, value}) => (
   <label className='input-group-text' htmlFor={htmlFor}>{value}</label>
 );
 
-export const Input = ({className, name, placeholder, value, onChange, maxLength = 10 }) => (
+export const TwoLabels = ({className, label, value}) => (
+  <div className={className}>
+    <label className='form-label'>{label}</label>
+    <p style={{marginTop: '5px'}}>{value}</p>
+  </div>
+);
+
+export const Input = ({className, name, placeholder, value, onChange, onBlur, maxLength = 10 }) => (
   <input
     type='text'
     className={`form-control ${className}`}
@@ -12,10 +19,11 @@ export const Input = ({className, name, placeholder, value, onChange, maxLength 
     value={value}
     maxLength={maxLength}
     onChange={onChange}
+    onBlur={onBlur}
   />
 );
 
-export const InputLabel = ({className, name, label, placeholder, value, onChange}) => (
+export const InputLabel = ({className, name, label, placeholder, value, onChange, onBlur, maxLength = 10}) => (
   <div className={className}>
     <label htmlFor={name} className='form-label'>{label}</label>
     <Input
@@ -24,6 +32,8 @@ export const InputLabel = ({className, name, label, placeholder, value, onChange
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
+      maxLength={maxLength}
     />
   </div>
 );

@@ -33,13 +33,15 @@ export const TableMulta = () => {
   return(
     <Table responsive striped bordered size='sm'>
       <Headers 
+        isSmall={true}
         fields={[
-          {desc: "Data/Hora Infração", sort: "dataInfracao"},
-          {desc: "Local", sort: "local"},
-          {desc: "Infração", sort: "enquadramento.descricao"},
-          {desc: "Tração", sort: "veiculo.placa"},
-          {desc: "Reboque", sort: "semiReboque.placa"},
-          {desc: "Motorista", sort: "motorista.nome"}
+          {desc: 'Data/Hora Infração', sort: 'dataInfracao'},
+          {desc: 'Local', sort: 'local'},
+          {desc: 'Infração', sort: 'enquadramento.descricao'},
+          {desc: 'Infrator', sort: 'infrator'},
+          {desc: 'Tração', sort: 'veiculo.placa'},
+          {desc: 'Reboque', sort: 'semiReboque.placa'},
+          {desc: 'Motorista', sort: 'motorista.nome'}
         ]}
       />
       <Body>

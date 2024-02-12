@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { LogoBranco } from '../../public/LogoBranco';
+import { LogoBranco } from '../../public/Logo';
 import './styles.css';
 
 const index = () => (
-    <nav className='navbar navbar-expand-lg bg-estrela-blue mb-4'>
+    <nav className='navbar navbar-expand-lg bg-empresa-color mb-4'>
 			<div className='container-fluid'>
 		    <Link className='navbar-brand text-light' to={`/`}><LogoBranco /></Link>
 		    <button className='navbar-toggler btn-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent'>...</button>

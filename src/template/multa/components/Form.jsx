@@ -1,13 +1,23 @@
-import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, SelectInfratorLabel, TextAreaLabel, NumberLabel, DoubleLabel } from '../../../components/inputs';
+import { useState } from 'react';
+import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, SelectInfratorLabel, TextAreaLabel, NumberLabel, DoubleLabel, TwoLabels } from '../../../components/inputs';
 import { BtnSalvar, BtnVoltar, BtnImprimir } from '../../../components/buttons';
+import * as utils from '../../../utils/stringFormater';
 
 export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, handleSalvar, handleImprimir, handleVoltar}) => {
+  const [numeroEnquadramento, setNumeroEnquadramento] = useState();
 
-  const handleOnChangeEnquadramento = (e) => {
-    setMulta({ ...multa, enquadramento: { id: e.target.value } });
+  const handleOnChangeEnquadramento = (id) => {
     enquadramentos.forEach((enquadramento) => {
-      if (enquadramento.id === e.target.value) {
-        changeValorBoleto(enquadramento.valor);
+      if (enquadramento.id === id) {
+        let valor = enquadramento.valor;
+        setMulta({
+          ...multa,
+          enquadramento: { id: id },
+          valorBoleto: valor,
+          descontoBoleto: (valor * 0.2).toFixed(2),
+          valorNi: valor * multa.multiplicadorNi,
+          descontoNi: (valor * multa.multiplicadorNi * 0.2).toFixed(2)
+        });
       }
     });
   };
@@ -56,13 +66,30 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         placeholder='Local'
         value={multa?.local || ''}
         onChange={(e) => setMulta({ ...multa, local: e.target.value })}
+        maxLength={50}
+      />
+      <InputLabel
+        className='col-lg-1'
+        name='numeroEnquadramento'
+        label='Numero'
+        placeholder='____/_'
+        value={numeroEnquadramento || ''}
+        onChange={(e) => setNumeroEnquadramento(e.target.value)}
+        onBlur={(e) => {
+          enquadramentos.forEach((enquadramento) => {
+            if (enquadramento.numeroEnquadramento === numeroEnquadramento) {
+              handleOnChangeEnquadramento(enquadramento.id);
+            }
+          })
+        }}
+        maxLength={7}
       />
       <SelectLabel
-        className='col-lg-5'
+        className='col-lg-4'
         name='comboEnquadramento'
         label='Enquadramento'
         value={multa?.enquadramento?.id || 0}
-        onChange={handleOnChangeEnquadramento}
+        onChange={(e) => handleOnChangeEnquadramento(e.target.value)}
       >
         <option value={0}>Selecione...</option>
         {enquadramentos && enquadramentos.map((enquadramento) => (
@@ -74,27 +101,46 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         name='comboVeiculo'
         label='Veículo'
         value={multa?.veiculo?.id || 0}
-        onChange={(e) => setMulta({ ...multa, veiculo: { id: e.target.value } })}
+        onChange={(e) => {
+          if (e.target.value == 0)
+            setMulta({ ...multa, veiculo: null });
+          else
+            setMulta({ ...multa, veiculo: { id: e.target.value } });
+        }}
       >
         <option value={0}>Selecione...</option>
         {veiculos && veiculos.map((veiculo) => (
           <option key={veiculo.id} value={veiculo.id}>{veiculo.placa}</option>
         ))}
       </SelectLabel>
-      <InputLabel
+      <SelectLabel
         className='col-lg-2'
-        name='semiReboque'
+        name='comboSemiReboque'
         label='Semi-Reboque'
-        placeholder='Semi-Reboque'
         value={multa?.semiReboque?.id || 0}
-        onChange={(e) => setMulta({ ...multa, semiReboque: null })}
-      />
+        onChange={(e) => {
+          if (e.target.value == 0)
+            setMulta({ ...multa, semiReboque: null });
+          else
+            setMulta({ ...multa, semiReboque: { id: e.target.value } });
+        }}
+      >
+        <option value={0}>Selecione...</option>
+        {veiculos && veiculos.map((veiculo) => (
+          <option key={veiculo.id} value={veiculo.id}>{veiculo.placa}</option>
+        ))}
+      </SelectLabel>
       <SelectLabel
         className='col-lg-8'
         name='comboMotorista'
         label='Motorista'
         value={multa?.motorista?.id || 0}
-        onChange={(e) => setMulta({ ...multa, motorista: { id: e.target.value } })}
+        onChange={(e) => {
+          if (e.target.value == 0)
+            setMulta({ ...multa, motorista: null });
+          else
+            setMulta({ ...multa, motorista: { id: e.target.value } });
+        }}
       >
         <option value={0}>Selecione...</option>
         {motoristas && motoristas.map((motorista) => (
@@ -115,6 +161,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         placeholder='Nº AIT'
         value={multa?.numeroAit || ''}
         onChange={(e) => setMulta({ ...multa, numeroAit: e.target.value })}
+        maxLength={30}
       />
       <DateLabel
         className='col-lg-2'
@@ -153,14 +200,14 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         onChange={(e) => setMulta({ ...multa, envioPenalidade: e.target.value })}
       />
       <SelectLabel
-        className='col-lg-2'
+        className='col-lg-1'
         name='boletoRecebido'
-        label='Boleto Recebido?'
+        label='Boleto?'
         value={multa?.boletoRecebido || false}
         onChange={(e) => setMulta({ ...multa, boletoRecebido: e.target.value })}
       >
-        <option value={false}>Não</option>
-        <option value={true}>Sim</option>
+        <option value={false}>N</option>
+        <option value={true}>S</option>
       </SelectLabel>
       <DateLabel
         className='col-lg-2'
@@ -170,6 +217,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         value={multa?.vencimentoBoleto || ''}
         onChange={(e) => setMulta({ ...multa, vencimentoBoleto: e.target.value })}
       />
+      <div className='col-lg-1' />
       <DoubleLabel
         className='col-lg-2'
         name='valorBoleto'
@@ -186,13 +234,10 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         value={multa?.descontoBoleto || ''}
         onChange={(e) => setMulta({ ...multa, descontoBoleto: e.target.value })}
       />
-      <DoubleLabel
+      <TwoLabels
         className='col-lg-2'
-        name='valeBoleto'
         label='Vale Boleto'
-        placeholder='Vale Boleto'
-        value={multa?.valorBoleto - multa?.descontoBoleto || ''}
-        onChange={() => { }}
+        value={utils.formatReal(multa?.valorBoleto - multa?.descontoBoleto) || ''}
       />
       <DateLabel
         className='col-lg-2'
@@ -203,14 +248,14 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         onChange={(e) => setMulta({ ...multa, envioBoleto: e.target.value })}
       />
       <SelectLabel
-        className='col-lg-2'
+        className='col-lg-1'
         name='niRecebido'
-        label='NI Recebido?'
+        label='NI?'
         value={multa?.niRecebido || false}
         onChange={(e) => setMulta({ ...multa, niRecebido: e.target.value })}
       >
-        <option value={false}>Não</option>
-        <option value={true}>Sim</option>
+        <option value={false}>N</option>
+        <option value={true}>S</option>
       </SelectLabel>
       <DateLabel
         className='col-lg-2'
@@ -245,6 +290,11 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         placeholder='Desconto NI'
         value={multa?.descontoNi || ''}
         onChange={(e) => setMulta({ ...multa, descontoNi: e.target.value })}
+      />
+      <TwoLabels
+        className='col-lg-2'
+        label='Vale NI'
+        value={utils.formatReal(multa?.valorNi - multa?.descontoNi) || ''}
       />
       <DateLabel
         className='col-lg-2'

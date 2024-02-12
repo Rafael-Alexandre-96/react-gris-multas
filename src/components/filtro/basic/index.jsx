@@ -42,7 +42,7 @@ const Index = () => {
           <BtnLimpar onClick={handleLimparFiltro} />
           <BtnBuscar onClick={handleBuscar} />
         </div>
-        <p className='fst-italic text-end'>Registros encontrados: {state.pagination.totalElements}</p>
+        <p className='fst-italic text-center'>Registros encontrados: {state.pagination.totalElements}</p>
       </Col>
     </Row>
   );

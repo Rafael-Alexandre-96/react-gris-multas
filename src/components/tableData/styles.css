@@ -2,3 +2,7 @@ thead tr th:hover {
 	filter: brightness(0.95);
 	cursor: pointer;
 }
+
+.small-header-table {
+  font-size: 12px;
+}

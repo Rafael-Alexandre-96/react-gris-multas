@@ -8,6 +8,7 @@ import { TableMulta } from './TableMulta';
 import { Pagination } from '../../components/pagination/Pagination';
 import { DialogModal } from '../../components/modal/DialogModal';
 import './styles.css';
+import { NavButton } from './components/NavButton';
 
 const index = () => (
   <ModalContextProvider>
@@ -16,6 +17,7 @@ const index = () => (
       <Card title='Cadastro de Multa'>
         <FiltroContextProvider>
           <FiltroMulta />
+          <NavButton />
           <TableMulta />
           <Pagination />
         </FiltroContextProvider>

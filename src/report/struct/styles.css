@@ -1,0 +1,10 @@
+.a4 {
+  background-color: white;
+  width: 210mm;
+  height: 297mm;
+  padding: 5mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}

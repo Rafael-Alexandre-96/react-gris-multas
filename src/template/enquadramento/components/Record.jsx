@@ -1,9 +1,10 @@
 import { EditRecord } from './Inputs';
 import { BtnSalvarSm, BtnEditarSm, BtnDeletarSm } from '../../../components/buttons/index';
 import * as utils from '../../../utils/stringFormater';
+import '../../styles.css';
 
 export const Record = ({edit, setEdit, enquadramento, setEnquadramento, handleSalvar, handleDeletar}) => (
-  <tr>
+  <tr className='small-text-table'>
       { edit ? 
         <EditRecord enquadramento={enquadramento} setEnquadramento={setEnquadramento} />
         :

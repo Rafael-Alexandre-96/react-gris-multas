@@ -67,10 +67,17 @@ export const FrmMulta = () => {
     }
   };
 
+  const handleImprimir = async () => {
+    if (params?.id)
+      window.open(`/multa/imprimir/${multa.id}`, '_blank');
+    else
+      modalActions.showModalDanger('Salve o registro antes de imprimir.')
+  };
+
   return (
     <Form
       enquadramentos={enquadramentos}
-      handleImprimir={() => {}}
+      handleImprimir={handleImprimir}
       handleSalvar={handleSalvar}
       handleVoltar={() => navigate('/multa')}
       motoristas={motoristas}
