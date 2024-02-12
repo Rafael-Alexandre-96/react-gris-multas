@@ -10,6 +10,7 @@ export const Record = ({edit, setEdit, veiculo, setVeiculo, handleSalvar, handle
         <>
           <td className='align-middle'><span>{veiculo?.placa || ''}</span></td>
           <td className='align-middle'><span>{veiculo?.frota || ''}</span></td>
+          <td className='align-middle'><span>{veiculo?.tipoRodado || ''}</span></td>
         </>
       }
     <td className='align-middle'>

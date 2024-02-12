@@ -16,6 +16,7 @@ export const FrmMulta = () => {
 
   const [enquadramentos, setEnquadramentos] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
+  const [reboques, setReboques] = useState([]);
   const [motoristas, setMotoristas] = useState([]);
 
   useEffect(() => {
@@ -35,14 +36,21 @@ export const FrmMulta = () => {
   }, [navigate, params.id]);
 
   const loadData = async () => {
-    let resEnquandramentos = await enquadramentoService.findAll();
-    setEnquadramentos(resEnquandramentos.data);
+    try {
+      let resEnquandramentos = await enquadramentoService.findAll();
+      setEnquadramentos(resEnquandramentos.data);
 
-    let resVeiculos = await veiculoService.findAll();
-    setVeiculos(resVeiculos.data);
+      let resVeiculos = await veiculoService.findAllTracao();
+      setVeiculos(resVeiculos.data);
 
-    let resMotoristas = await motoristaService.findAll();
-    setMotoristas(resMotoristas.data);
+      let resReboques = await veiculoService.findAllReboque();
+      setReboques(resReboques.data);
+
+      let resMotoristas = await motoristaService.findAll();
+      setMotoristas(resMotoristas.data);
+    } catch (error) {
+      modalActions.showModalDanger(error.message);
+    }
   };
 
   const handleSalvar = async () => {
@@ -84,6 +92,7 @@ export const FrmMulta = () => {
       multa={multa}
       setMulta={setMulta}
       veiculos={veiculos}
+      reboques={reboques}
     />
   );
 }

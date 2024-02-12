@@ -37,6 +37,7 @@ export const TableVeiculo = () => {
         fields={[
           {desc: 'Placa', sort: 'placa'},
           {desc: 'Frota', sort: 'frota'},
+          {desc: 'Tipo', sort: 'tipoRodado'},
           {desc: 'Status', sort: 'registroStatus.active'}
         ]}
       />

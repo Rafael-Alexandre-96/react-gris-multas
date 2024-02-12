@@ -3,7 +3,7 @@ import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, SelectInfratorLabel,
 import { BtnSalvar, BtnVoltar, BtnImprimir } from '../../../components/buttons';
 import * as utils from '../../../utils/stringFormater';
 
-export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, handleSalvar, handleImprimir, handleVoltar}) => {
+export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motoristas, handleSalvar, handleImprimir, handleVoltar}) => {
   const [numeroEnquadramento, setNumeroEnquadramento] = useState();
 
   const handleOnChangeEnquadramento = (id) => {
@@ -126,8 +126,8 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, motoristas, han
         }}
       >
         <option value={0}>Selecione...</option>
-        {veiculos && veiculos.map((veiculo) => (
-          <option key={veiculo.id} value={veiculo.id}>{veiculo.placa}</option>
+        {reboques && reboques.map((reboque) => (
+          <option key={reboque.id} value={reboque.id}>{reboque.placa}</option>
         ))}
       </SelectLabel>
       <SelectLabel

@@ -23,6 +23,22 @@ export const findAll = async () => {
   return baseService.findAll(path);
 };
 
+export const findAllTracao = async () => {
+  let data = null;
+  await api.get(`${path}/tracao`)
+    .then((response) => data = response)
+    .catch((error) => { throw error });
+  return data;
+};
+
+export const findAllReboque = async () => {
+  let data = null;
+  await api.get(`${path}/reboque`)
+    .then((response) => data = response)
+    .catch((error) => { throw error });
+  return data;
+};
+
 export const activeVeiculoById = async (id) => {
   return baseService.activeEntityById(path, id);
 };

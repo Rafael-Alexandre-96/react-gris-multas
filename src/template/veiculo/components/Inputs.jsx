@@ -1,4 +1,4 @@
-import { Input } from '../../../components/inputs';
+import { Input, Select } from '../../../components/inputs';
 
 export const EditRecord = ({veiculo, setVeiculo}) => (
   <>
@@ -21,6 +21,17 @@ export const EditRecord = ({veiculo, setVeiculo}) => (
         onChange={(e) => setVeiculo({...veiculo, frota: e.target.value})}
         maxLength={15}
       />
+    </td>
+    <td className='align-middle'>
+      <Select
+        className='text-center'
+        name='comboTipoRodado'
+        value={veiculo?.tipoRodado || 'TRACAO'}
+        onChange={(e) => setVeiculo({...veiculo, tipoRodado: e.target.value})}
+      >
+        <option value='TRACAO'>TRAÇÃO</option>
+        <option value='REBOQUE'>REBOQUE</option>
+      </Select>
     </td>
   </>
 );

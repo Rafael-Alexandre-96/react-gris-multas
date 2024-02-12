@@ -127,9 +127,9 @@ export const DateTimeLabel = ({className, name, label, placeholder, value, onCha
   </div>
 );
 
-export const Select = ({name, value, children, onChange}) => (
+export const Select = ({className, name, value, children, onChange}) => (
     <select
-      className='form-select'
+      className={`form-select ${className}`}
       name={name}
       id={name}
       value={value}
