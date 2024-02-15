@@ -2,6 +2,7 @@ import { actions } from './filtroActions';
 
 export const buildActions = (dispatch) => {
   return {
+    changeFiltroField: (payload) => dispatch({ type: actions.CHANGE_FILTRO_FIELD, payload }),
     changeFiltroValue: (payload) => dispatch({ type: actions.CHANGE_FILTRO_VALUE, payload }),
     changeFiltroShowDeactive: (payload) => dispatch({ type: actions.CHANGE_FILTRO_SHOW_DEACTIVE, payload }),
     filterResults: (payload) => dispatch({ type: actions.FILTER_RESULTS, payload }),

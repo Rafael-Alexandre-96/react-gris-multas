@@ -11,9 +11,9 @@ export const updateVeiculo = async (id, body) => {
   return baseService.updateEntity(path, id, body);
 };
 
-export const findByFiltro = async (value, showDeactive, page, field, asc) => {
+export const findByFieldPageable = async (field, value, showDeactive, page, sort, asc) => {
   let data = null;
-  await api.get(`${path}/filtro?placa=${value}&showDeactive=${showDeactive}&page=${page}&inPage=10&sort=${field}&asc=${asc}`)
+  await api.get(`${path}/filtro/pageable?field=${field}&value=${value}&showDeactive=${showDeactive}&page=${page}&inPage=10&sort=${sort}&asc=${asc}`)
     .then((response) => data = response)
     .catch((error) => { throw error });
   return data;
@@ -23,17 +23,17 @@ export const findAll = async () => {
   return baseService.findAll(path);
 };
 
-export const findAllTracao = async () => {
+export const findAllTracaoActive = async () => {
   let data = null;
-  await api.get(`${path}/tracao`)
+  await api.get(`${path}/filtro/all?field=tipoRodado&value=TRACAO&showDeactive=false`)
     .then((response) => data = response)
     .catch((error) => { throw error });
   return data;
 };
 
-export const findAllReboque = async () => {
+export const findAllReboqueActive = async () => {
   let data = null;
-  await api.get(`${path}/reboque`)
+  await api.get(`${path}/filtro/all?field=tipoRodado&value=REBOQUE&showDeactive=false`)
     .then((response) => data = response)
     .catch((error) => { throw error });
   return data;

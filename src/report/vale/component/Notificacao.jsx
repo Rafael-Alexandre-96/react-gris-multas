@@ -26,7 +26,7 @@ export const Notificacao = ({multa}) => (
       <div>{`${multa?.enquadramento?.numeroEnquadramento} - ${multa?.enquadramento?.descricao}`}</div>
     </div>
 
-    <div>Ficam abaixo a critério do colaborador em optar por indicar ou não o condutor para as devidas providências junto ao Órgão Compoentente:</div>
+    <div>Ficam abaixo a critério do colaborador em optar por indicar ou não o condutor para as devidas providências junto ao Órgão Competente:</div>
 
     <div className='grid-indicacao'>
       <div>Opto pela Indicação</div>

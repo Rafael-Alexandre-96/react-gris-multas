@@ -12,7 +12,7 @@ export const FrmMulta = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [, modalActions] = useModalContext();
-  const [multa, setMulta] = useState({multiplicadorNi: 1, infrator: 'MOTORISTA'});
+  const [multa, setMulta] = useState({multiplicadorNi: 1, infrator: 'MOTORISTA', indicado: false});
 
   const [enquadramentos, setEnquadramentos] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
@@ -20,8 +20,26 @@ export const FrmMulta = () => {
   const [motoristas, setMotoristas] = useState([]);
 
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        let resEnquandramentos = await enquadramentoService.findAll();
+        setEnquadramentos(resEnquandramentos.data);
+  
+        let resVeiculos = await veiculoService.findAllTracaoActive();
+        setVeiculos(resVeiculos.data);
+  
+        let resReboques = await veiculoService.findAllReboqueActive();
+        setReboques(resReboques.data);
+  
+        let resMotoristas = await motoristaService.findAllActive();
+        setMotoristas(resMotoristas.data);
+      } catch (error) {
+        modalActions.showModalDanger(error.message);
+      }
+    };
+
     loadData();
-  }, []);
+  }, [modalActions]);
 
   useEffect(() => {
     if (params?.id) {
@@ -35,23 +53,6 @@ export const FrmMulta = () => {
     }
   }, [navigate, params.id]);
 
-  const loadData = async () => {
-    try {
-      let resEnquandramentos = await enquadramentoService.findAll();
-      setEnquadramentos(resEnquandramentos.data);
-
-      let resVeiculos = await veiculoService.findAllTracao();
-      setVeiculos(resVeiculos.data);
-
-      let resReboques = await veiculoService.findAllReboque();
-      setReboques(resReboques.data);
-
-      let resMotoristas = await motoristaService.findAll();
-      setMotoristas(resMotoristas.data);
-    } catch (error) {
-      modalActions.showModalDanger(error.message);
-    }
-  };
 
   const handleSalvar = async () => {
     if (params?.id) {

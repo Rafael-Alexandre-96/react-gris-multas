@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import Card from '../../components/card/index';
 import { FiltroContextProvider } from '../../context/FiltroContext/FiltroContext';
 import FiltroEnquadramento from '../../components/filtro/basic/index';
+import { filterFields } from './data/filterFields';
 import { TableEnquadramento } from './TableEnquadramento';
 import { Pagination } from '../../components/pagination/Pagination';
 import { DialogModal } from '../../components/modal/DialogModal';
@@ -15,7 +16,7 @@ const index = () => (
     <Container>
       <Card title='Cadastro de Enquadramento'>
         <FiltroContextProvider>
-          <FiltroEnquadramento />
+          <FiltroEnquadramento defaultField='descricao' options={filterFields} showActiveFilter={false}/>
           <TableEnquadramento />
           <Pagination />
         </FiltroContextProvider>

@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, SelectInfratorLabel, TextAreaLabel, NumberLabel, DoubleLabel, TwoLabels } from '../../../components/inputs';
 import { BtnSalvar, BtnVoltar, BtnImprimir } from '../../../components/buttons';
 import * as utils from '../../../utils/stringFormater';
 
 export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motoristas, handleSalvar, handleImprimir, handleVoltar}) => {
   const [numeroEnquadramento, setNumeroEnquadramento] = useState();
+
+  useEffect(() => {
+    setMulta({
+      ...multa,
+      niRecebido: false,
+      vencimentoNi: null,
+      valorNi: 0,
+      descontoNi: 0,
+      envioNi: null,
+      multiplicadorNi: 0
+    });
+  }, [multa.indicado]);
 
   const handleOnChangeEnquadramento = (id) => {
     enquadramentos.forEach((enquadramento) => {
@@ -108,6 +120,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
             setMulta({ ...multa, veiculo: { id: e.target.value } });
         }}
       >
+        { !multa?.veiculo?.registroStatus?.active && <option value={1}>{multa?.veiculo?.placa}</option>}
         <option value={0}>Selecione...</option>
         {veiculos && veiculos.map((veiculo) => (
           <option key={veiculo.id} value={veiculo.id}>{veiculo.placa}</option>
@@ -191,13 +204,8 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
         <option value={false}>Não</option>
         <option value={true}>Sim</option>
       </SelectLabel>
-      <DateLabel
+      <div
         className='col-lg-2'
-        name='envioPenalidade'
-        label='Envio Penalidade'
-        placeholder='Envio Penalidade'
-        value={multa?.envioPenalidade || ''}
-        onChange={(e) => setMulta({ ...multa, envioPenalidade: e.target.value })}
       />
       <SelectLabel
         className='col-lg-1'
@@ -247,63 +255,67 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
         value={multa?.envioBoleto || ''}
         onChange={(e) => setMulta({ ...multa, envioBoleto: e.target.value })}
       />
-      <SelectLabel
-        className='col-lg-1'
-        name='niRecebido'
-        label='NI?'
-        value={multa?.niRecebido || false}
-        onChange={(e) => setMulta({ ...multa, niRecebido: e.target.value })}
-      >
-        <option value={false}>N</option>
-        <option value={true}>S</option>
-      </SelectLabel>
-      <DateLabel
-        className='col-lg-2'
-        name='vencimentoNi'
-        label='Vencimento NI'
-        placeholder='Vencimento NI'
-        value={multa?.vencimentoNi || ''}
-        onChange={(e) => setMulta({ ...multa, vencimentoNi: e.target.value })}
-      />
-      <NumberLabel
-        className='col-lg-1'
-        name='multiplicadorNi'
-        label='Mult.'
-        placeholder='Mult.'
-        value={multa?.multiplicadorNi || 1}
-        onChange={(e) => changeMultiplicador(e.target.value)}
-        min={1}
-        max={10}
-      />
-      <DoubleLabel
-        className='col-lg-2'
-        name='valorNi'
-        label='Valor NI'
-        placeholder='Valor NI'
-        value={multa?.valorNi || ''}
-        onChange={(e) => changeValorNi(e.target.value)}
-      />
-      <DoubleLabel
-        className='col-lg-2'
-        name='descontoNi'
-        label='Desconto NI'
-        placeholder='Desconto NI'
-        value={multa?.descontoNi || ''}
-        onChange={(e) => setMulta({ ...multa, descontoNi: e.target.value })}
-      />
-      <TwoLabels
-        className='col-lg-2'
-        label='Vale NI'
-        value={utils.formatReal(multa?.valorNi - multa?.descontoNi) || ''}
-      />
-      <DateLabel
-        className='col-lg-2'
-        name='envioNi'
-        label='Envio NI'
-        placeholder='Envio NI'
-        value={multa?.envioNi || ''}
-        onChange={(e) => setMulta({ ...multa, envioNi: e.target.value })}
-      />
+      { multa?.indicado?.toString() === 'false' &&
+      <>
+        <SelectLabel
+          className='col-lg-1'
+          name='niRecebido'
+          label='NI?'
+          value={multa?.niRecebido || false}
+          onChange={(e) => setMulta({ ...multa, niRecebido: e.target.value })}
+        >
+          <option value={false}>N</option>
+          <option value={true}>S</option>
+        </SelectLabel>
+        <DateLabel
+          className='col-lg-2'
+          name='vencimentoNi'
+          label='Vencimento NI'
+          placeholder='Vencimento NI'
+          value={multa?.vencimentoNi || ''}
+          onChange={(e) => setMulta({ ...multa, vencimentoNi: e.target.value })}
+        />
+        <NumberLabel
+          className='col-lg-1'
+          name='multiplicadorNi'
+          label='Mult.'
+          placeholder='Mult.'
+          value={multa?.multiplicadorNi || 1}
+          onChange={(e) => changeMultiplicador(e.target.value)}
+          min={1}
+          max={10}
+        />
+        <DoubleLabel
+          className='col-lg-2'
+          name='valorNi'
+          label='Valor NI'
+          placeholder='Valor NI'
+          value={multa?.valorNi || ''}
+          onChange={(e) => changeValorNi(e.target.value)}
+        />
+        <DoubleLabel
+          className='col-lg-2'
+          name='descontoNi'
+          label='Desconto NI'
+          placeholder='Desconto NI'
+          value={multa?.descontoNi || ''}
+          onChange={(e) => setMulta({ ...multa, descontoNi: e.target.value })}
+        />
+        <TwoLabels
+          className='col-lg-2'
+          label='Vale NI'
+          value={utils.formatReal(multa?.valorNi - multa?.descontoNi) || ''}
+        />
+        <DateLabel
+          className='col-lg-2'
+          name='envioNi'
+          label='Envio NI'
+          placeholder='Envio NI'
+          value={multa?.envioNi || ''}
+          onChange={(e) => setMulta({ ...multa, envioNi: e.target.value })}
+        />
+      </>
+      }
       <TextAreaLabel
         className='col-lg-12'
         name='observacao'

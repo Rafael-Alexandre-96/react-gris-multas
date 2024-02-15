@@ -15,7 +15,7 @@ export const TableMulta = () => {
   const [multas, setMultas] = useState([]);
 
   const findByFiltro = useCallback(async() => {
-    apiFunctions.findBy(service.findByFiltro(filtroState.pagination.page, filtroState.sort.field, filtroState.sort.asc), setMultas)
+    apiFunctions.findBy(service.findByFieldPageable(filtroState.filtro.field, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.sort, filtroState.sort.asc), setMultas)
       .then((multas) => {
         setMultas(multas);
         filtroActions.changeTotalElements(multas.totalElements);
@@ -24,7 +24,7 @@ export const TableMulta = () => {
       .catch((error) => {
         modalActions.showModalDanger(error.message);
       });
-  }, [filtroActions, filtroState.pagination.page, filtroState.sort.asc, filtroState.sort.field, modalActions]);
+  }, [filtroActions, filtroState.filtro.field, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.asc, filtroState.sort.sort, modalActions]);
 
   useEffect(() => {  
     findByFiltro();

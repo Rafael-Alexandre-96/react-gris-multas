@@ -4,6 +4,7 @@ import { buildActions } from './filtroBuildActions';
 
 export const initalState = {
   filtro: {
+    field: '',
     value: '',
     showDeactive: true
   },
@@ -14,7 +15,7 @@ export const initalState = {
     totalElements: 0
   },
   sort: {
-    field: '',
+    sort: '',
     asc: true
   }
 };

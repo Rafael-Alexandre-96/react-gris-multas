@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import Card from '../../components/card/index';
 import { FiltroContextProvider } from '../../context/FiltroContext/FiltroContext';
 import FiltroVeiculo from '../../components/filtro/basic/index';
+import { filterFields } from './data/filterFields';
 import { TableVeiculo } from './TableVeiculo';
 import { Pagination } from '../../components/pagination/Pagination';
 import { DialogModal } from '../../components/modal/DialogModal';
@@ -15,7 +16,7 @@ const index = () => (
     <Container>
       <Card title='Cadastro de Veículo'>
         <FiltroContextProvider>
-          <FiltroVeiculo />
+          <FiltroVeiculo defaultField='placa' options={filterFields}/>
           <TableVeiculo />
           <Pagination />
         </FiltroContextProvider>

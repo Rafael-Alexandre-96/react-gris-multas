@@ -2,6 +2,9 @@ import { actions } from "./filtroActions";
 
 export const filtroReducer = (state, action) => {
   switch(action.type) {
+    case actions.CHANGE_FILTRO_FIELD: {
+      return { ...state, filtro: { ...state.filtro, field: action.payload } }
+    }
     case actions.CHANGE_FILTRO_VALUE: {
       return { ...state, filtro: { ...state.filtro, value: action.payload } }
     }
@@ -11,6 +14,7 @@ export const filtroReducer = (state, action) => {
     case actions.FILTER_RESULTS: {
       return {
         filtro: {
+          field: action.payload.field,
           value: action.payload.value,
           showDeactive: action.payload.showDeactive
         },
@@ -19,7 +23,7 @@ export const filtroReducer = (state, action) => {
           page: 0
         },
         sort: {
-          field: '',
+          sort: '',
           asc: true
         }
       }
@@ -28,11 +32,12 @@ export const filtroReducer = (state, action) => {
       return {
         ...state,
         filtro: {
+          field: '',
           value: '',
           showDeactive: true
         },
         sort: {
-          field: '',
+          sort: '',
           asc: true
         }
       }
@@ -50,7 +55,7 @@ export const filtroReducer = (state, action) => {
       return { ...state, pagination: { ...state.pagination, totalElements: action.payload } }
     }
     case actions.CHANGE_SORT_FIELD: {
-      return { ...state, sort: { ...state.sort, field: action.payload } }
+      return { ...state, sort: { ...state.sort, sort: action.payload } }
     }
     case actions.CHANGE_SORT_ASC: {
       return { ...state, sort: { ...state.sort, asc: action.payload } }

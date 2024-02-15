@@ -13,9 +13,9 @@ export const updateEnquadramento = async (id, body) => {
   return baseService.updateEntity(path, id, body);
 };
 
-export const findByFiltro = async (value, page, field, asc) => {
+export const findByFieldPageable = async (field, value, page, sort, asc) => {
   let data = null;
-  await api.get(`${path}/filtro?descricao=${value}&page=${page}&inPage=10&sort=${field}&asc=${asc}`)
+  await api.get(`${path}/filtro/pageable?field=${field}&value=${value}&page=${page}&inPage=10&sort=${sort}&asc=${asc}`)
     .then((response) => data = response)
     .catch((error) => { throw error });
   return data;
