@@ -3,7 +3,7 @@ import { DateLabel, DateTimeLabel, InputLabel, SelectLabel, SelectInfratorLabel,
 import { BtnSalvar, BtnVoltar, BtnImprimir } from '../../../components/buttons';
 import * as utils from '../../../utils/stringFormater';
 
-export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motoristas, handleSalvar, handleImprimir, handleVoltar}) => {
+export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motoristas, handleSalvar, handleImprimir, handleVoltar, selected = null}) => {
   const [numeroEnquadramento, setNumeroEnquadramento] = useState();
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
             setMulta({ ...multa, veiculo: { id: e.target.value } });
         }}
       >
-        { !multa?.veiculo?.registroStatus?.active && <option value={1}>{multa?.veiculo?.placa}</option>}
+        { selected?.veiculo?.id && <option value={selected.veiculo.id}>{selected.veiculo.placa}</option>}
         <option value={0}>Selecione...</option>
         {veiculos && veiculos.map((veiculo) => (
           <option key={veiculo.id} value={veiculo.id}>{veiculo.placa}</option>
@@ -138,6 +138,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
             setMulta({ ...multa, semiReboque: { id: e.target.value } });
         }}
       >
+        { selected?.semiReboque?.id && <option value={selected.semiReboque.id}>{selected.semiReboque.placa}</option>}
         <option value={0}>Selecione...</option>
         {reboques && reboques.map((reboque) => (
           <option key={reboque.id} value={reboque.id}>{reboque.placa}</option>
@@ -155,6 +156,7 @@ export const Form = ({multa, setMulta, enquadramentos, veiculos, reboques, motor
             setMulta({ ...multa, motorista: { id: e.target.value } });
         }}
       >
+        { selected?.motorista?.id && <option value={selected.motorista.id}>{selected.motorista.nome}</option>}
         <option value={0}>Selecione...</option>
         {motoristas && motoristas.map((motorista) => (
           <option key={motorista.id} value={motorista.id}>{motorista.nome}</option>

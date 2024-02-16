@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import IndexDashboard from '../template/dashboard/index';
 import IndexMotorista from '../template/motorista/index';
 import IndexVeiculo from '../template/veiculo/index';
 import IndexMulta from '../template/multa/index';
@@ -10,8 +11,8 @@ import IndexEnquadramento from '../template/enquadramento/index'
 export const routers = createBrowserRouter([
   {
     path: '/',
-    element: <IndexMotorista />,
-    errorElement: <IndexMotorista />
+    element: <IndexDashboard />,
+    errorElement: <IndexDashboard />
   },
   {
     path: '/motorista',

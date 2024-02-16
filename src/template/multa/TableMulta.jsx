@@ -41,7 +41,8 @@ export const TableMulta = () => {
           {desc: 'Infrator', sort: 'infrator'},
           {desc: 'Tração', sort: 'veiculo.placa'},
           {desc: 'Reboque', sort: 'semiReboque.placa'},
-          {desc: 'Motorista', sort: 'motorista.nome'}
+          {desc: 'Motorista', sort: 'motorista.nome'},
+          {desc: 'Situação', sort: 'situacao'}
         ]}
       />
       <Body>

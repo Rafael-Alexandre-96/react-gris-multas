@@ -24,7 +24,7 @@ const Index = ({options, defaultField, showActiveFilter = true}) => {
           <LabelFiltro htmlFor='comboField' value='Campo' />
           <select className='form-select' id='comboField' value={preFiltro?.field} onChange={(e) => setPreFiltro({ ...preFiltro, field: e.target.value })}>
             { options && options.map((option) => (
-              <option value={option.value}>{option.desc}</option>
+              <option key={option.value} value={option.value}>{option.desc}</option>
             ))}
           </select>
           <LabelFiltro htmlFor='valor' value='Valor' />

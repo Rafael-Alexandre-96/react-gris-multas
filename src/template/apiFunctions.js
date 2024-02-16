@@ -9,8 +9,9 @@ export const createEntity = async (createFun, entity) => {
     return(result.data);
   } catch (error) {
     var message = [];
-    message.push(error.response.data.message);
-    error.response.data.fieldErros?.forEach((fieldError) => 
+    message.push(error.message);
+    message.push(error.response?.data?.message);
+    error.response?.data?.fieldErros?.forEach((fieldError) => 
       message.push(`\n ${fieldError.field}: ${fieldError.errorMsg}`)
     );
     throw new Error(message);
@@ -23,8 +24,9 @@ export const updateEntity = async (updateFun, entity) => {
     return(result.data);
   } catch (error) {
     var message = [];
-    message.push(error.response.data.message);
-    error.response.data.fieldErros?.forEach((fieldError) => 
+    message.push(error.message);
+    message.push(error.response?.data?.message);
+    error.response?.data?.fieldErros?.forEach((fieldError) => 
       message.push(`\n ${fieldError.field}: ${fieldError.errorMsg}`)
     );
     throw new Error(message);

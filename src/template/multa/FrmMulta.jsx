@@ -7,12 +7,14 @@ import * as veiculoService from '../../api/veiculoService';
 import * as motoristaService from '../../api/motoristaService';
 import * as apiFunctions from '../apiFunctions';
 import { Form } from './components/Form';
+import { initialState } from './data/initialState';
 
 export const FrmMulta = () => {
   const navigate = useNavigate();
   const params = useParams();
   const [, modalActions] = useModalContext();
-  const [multa, setMulta] = useState({multiplicadorNi: 1, infrator: 'MOTORISTA', indicado: false});
+  const [multa, setMulta] = useState(initialState);
+  const [selected, setSelected] = useState();
 
   const [enquadramentos, setEnquadramentos] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
@@ -46,10 +48,14 @@ export const FrmMulta = () => {
       apiFunctions.findBy(service.findById(params?.id))
         .then((multa) => {
           setMulta(multa);
+          setSelected({veiculo: multa.veiculo, motorista: multa.motorista, semiReboque: multa.semiReboque});
         })
         .catch(() => {
           navigate(`/multa/editar`);
         });
+    } else {
+      setMulta(initialState);
+      setSelected(null);
     }
   }, [navigate, params.id]);
 
@@ -59,7 +65,7 @@ export const FrmMulta = () => {
       apiFunctions.updateEntity(service.updateMulta, multa)
         .then((multa) => {
           setMulta(multa);
-          modalActions.showModalSuccess('Registro salvo com sucesso.');
+          modalActions.showModalSuccess('Registro atualizado com sucesso.');
         })
         .catch((error) => {
           modalActions.showModalDanger(error.message);
@@ -68,7 +74,7 @@ export const FrmMulta = () => {
       apiFunctions.createEntity(service.createMulta, multa)
         .then((multa) => {
           navigate(`/multa/editar/${multa.id}`);
-          modalActions.showModalSuccess('Registro salvo com sucesso.');
+          modalActions.showModalSuccess('Registro criado com sucesso.');
         })
         .catch((error) => {
           modalActions.showModalDanger(error.message);
@@ -94,6 +100,7 @@ export const FrmMulta = () => {
       setMulta={setMulta}
       veiculos={veiculos}
       reboques={reboques}
+      selected={selected}
     />
   );
 }

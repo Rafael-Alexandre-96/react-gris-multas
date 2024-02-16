@@ -25,6 +25,9 @@ export const Record = ({multa, handleEditar, handleImprimir, handleDeletar}) => 
     <td className="align-middle">
         <span>{multa?.motorista?.nome || ''}</span>
     </td>
+    <td className="align-middle">
+        <span>{multa?.situacao || ''}</span>
+    </td>
     <td className="d-flex gap-1 justify-content-between">
       <BtnEditarSm onClick={handleEditar} />
       <BtnImprimirSm onClick={handleImprimir} />

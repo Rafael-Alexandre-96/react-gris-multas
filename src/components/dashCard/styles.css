@@ -1,0 +1,14 @@
+.dashcard .card-header {
+  background-color: var(--bg-empresa-color);
+  color: white;
+  padding: 2px;
+}
+
+.dashcard .card-body {
+  font-size: x-large;
+  padding: 5px;
+}
+
+.dashcard {
+  margin: 10px;
+}
