@@ -25,6 +25,7 @@ const index = () => (
 				        <ul className='dropdown-menu'>
 									<li><Link className='dropdown-item' to={`/multa/editar`}>Novo</Link></li>
 					        <li><Link className='dropdown-item' to={`/multa`}>Lista</Link></li>
+									<li><Link className='dropdown-item' to={`/multa/aguardando-assinatura`}>Aguardando Assinatura</Link></li>
 				        </ul>
 			        </li>
 		      </ul>

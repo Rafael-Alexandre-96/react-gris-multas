@@ -19,6 +19,22 @@ export const findByFieldPageable = async (field, value, page, sort, asc) => {
   return data;
 };
 
+export const findAguardandoAssinatura = async (field, value, page, sort, asc) => {
+  let data = null;
+  await api.get(`${path}/aguardando-assinatura?field=${field}&value=${value}&page=${page}&inPage=10&sort=${sort}&asc=${asc}`)
+    .then((response) => data = response)
+    .catch((error) => { throw error });
+  return data;
+};
+
+export const motoristasAguardandoAssinatura = async () => {
+  let data = null;
+  await api.get(`${path}/resumo-motorista`)
+    .then((response) => data = response)
+    .catch((error) => { throw error });
+  return data;
+};
+
 export const findById = async (id) => {
   return baseService.findById(path, id);
 };

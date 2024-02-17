@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { useModalContext } from '../../context/ModalContext/ModalContext';
 import { useFiltroContext } from '../../context/FiltroContext/FiltroContext';
 import Table from 'react-bootstrap/Table';
@@ -9,13 +10,22 @@ import { Body } from '../../components/tableData/Body';
 import * as apiFunctions from '../apiFunctions';
 
 export const TableMulta = () => {
+  const params = useParams();
+  const location = useLocation();
   const [, modalActions] = useModalContext();
   const [filtroState, filtroActions] = useFiltroContext();
 
   const [multas, setMultas] = useState([]);
 
-  const findByFiltro = useCallback(async() => {
-    apiFunctions.findBy(service.findByFieldPageable(filtroState.filtro.field, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.sort, filtroState.sort.asc), setMultas)
+  const findByFiltro = useCallback(async(field = filtroState.filtro.field, value = filtroState.filtro.value) => {
+    let findFunction = () => {};
+    if (params.situacao === 'aguardando-assinatura') {
+      findFunction = service.findAguardandoAssinatura(field, value, filtroState.pagination.page, filtroState.sort.sort, filtroState.sort.asc);
+    } else {
+      findFunction = service.findByFieldPageable(field, value, filtroState.pagination.page, filtroState.sort.sort, filtroState.sort.asc);
+    }
+
+    apiFunctions.findBy(findFunction, setMultas)
       .then((multas) => {
         setMultas(multas);
         filtroActions.changeTotalElements(multas.totalElements);
@@ -24,11 +34,11 @@ export const TableMulta = () => {
       .catch((error) => {
         modalActions.showModalDanger(error.message);
       });
-  }, [filtroActions, filtroState.filtro.field, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.asc, filtroState.sort.sort, modalActions]);
+  }, [filtroActions, filtroState.filtro.field, filtroState.filtro.value, filtroState.pagination.page, filtroState.sort.asc, filtroState.sort.sort, modalActions, params.situacao]);
 
-  useEffect(() => {  
-    findByFiltro();
-  }, [findByFiltro]);
+  useEffect(() => {
+    findByFiltro(location?.state?.field, location?.state?.value);
+  }, [filtroActions, findByFiltro, location.state]);
 
   return(
     <Table responsive striped bordered size='sm'>

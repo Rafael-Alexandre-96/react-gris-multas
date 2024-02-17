@@ -27,6 +27,10 @@ export const routers = createBrowserRouter([
     element: <IndexMulta />,
   },
   {
+    path: '/multa/:situacao',
+    element: <IndexMulta />,
+  },
+  {
     path: '/multa/editar',
     element: <EditMulta />,
   },
